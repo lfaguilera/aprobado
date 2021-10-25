@@ -1,7 +1,7 @@
 def Memotest_e1 ():
     fichas ={1:'D',2:'D',3:'s',4:'s'}
     print('Fichas y Posiciones: [1] [2] [3] [4]') #Se le mostrará al jugador las posiciones disponibles, y se le solicitará el ingreso
-    op1_elejido = input ('1er posicion:')
+    op1_elejido = input ('1er posicion:') #lo que ingresa sera clave y devuelve letra como valor 
 
 
 
