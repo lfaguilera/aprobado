@@ -1,8 +1,20 @@
-#memotest
-def tablero_nuevo():
-    fichas={1:'D',2:'D',3:'s',4:'s'}
-    return fichas
+import time
+import random
 
+#memotest
+def tablero_nuevo(numero_pares):
+    tablero = []
+    while len(tablero) < numero_pares*2:
+        letra_may = random.randrange(65 , 90 , step= 1)
+
+        ficha = chr(letra_may)
+        if ficha not in tablero :
+            tablero.append(ficha)
+            tablero.append(ficha)
+    random.shuffle(tablero, random.random)
+
+    return tablero
+    
 def cuantos_jugadores():
     terminado="y"
     jugadores=[]
@@ -44,16 +56,20 @@ def tablero(mesa, posiciones):
     
 
 def main():
+    tiempo_inicio = time.time()
     mesa={}
     #[1,2,3,4]
-    mesa=tablero_nuevo()
+    mesa=tablero_nuevo(2)
     jugadores=cuantos_jugadores()
-    posiciones=[1,2,3,4]
+    #posiciones=[1,2,3,4]
     ganador=False
     
     while ganador==False:
         for i in range(0,len(jugadores)):
             print("Es el turno de",jugadores[i])
             posiciones=tablero(mesa, posiciones)
+    
+    tiempo_final = time.time()
+    print("El tiempo de la partida es ",tiempo_final-tiempo_inicio)
         
 main()
