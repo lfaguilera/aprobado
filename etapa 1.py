@@ -20,7 +20,7 @@ def agregar_jugadores (jugadores):
     for i in range(0,numero):
         jugador = str(input("Ingrese el nombre de jugador "+str(i+1)+" : "))
         jugadores[jugador] = {"puntos":0,"turnos":0}
-    print (jugadores)
+    #print (jugadores)
     return jugadores
 
 def cronometro (tiempo_inicio):
@@ -42,7 +42,7 @@ def tablero_nuevo(numero_pares):
             tablero.append([ficha,0])
             tablero.append([ficha+"b",0])
     random.shuffle(tablero)
-    print(tablero)
+    #print(tablero)
     return tablero
 
 def girar_ficha (primer_numero,segundo_numero, tablero):
@@ -66,9 +66,9 @@ def girar_ficha (primer_numero,segundo_numero, tablero):
     return tablero , par_igual
 
 
-def juego(tablero, jugador, jugadores):
+def juego(tablero, jugador, jugadores , pares):
     completo = False
-    pares = 0
+    
     pierde = False
     while not completo and not pierde :
 
@@ -96,7 +96,7 @@ def juego(tablero, jugador, jugadores):
             print("Siguiente jugador")
             jugadores[jugador]["turnos"] += 1
             
-    return completo , tablero , jugadores
+    return completo , tablero , jugadores , pares
     
 def mostrar_tablero (tablero):
     fichas = ""
@@ -111,12 +111,13 @@ def mostrar_tablero (tablero):
     print(60*"*","\n\n","Fichas y posiciones :",fichas,"\n\n"+60*"*")
 
 def main():
+    pares = 0
     completo = False
     tiempo_0 , tablero , jugadores = configurar_juego()
     while not completo :
         for jugador in jugadores.keys():
-            print("Es el turno de ",jugador)
-            completo , tablero , jugadores = juego (tablero,jugador,jugadores)
+            print("\nEs el turno de ",jugador,"\n")
+            completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)
     
     tiempo = cronometro(tiempo_0)
     print("El tiempo que tomo la partida es ",tiempo)
