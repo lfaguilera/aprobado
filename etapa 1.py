@@ -26,7 +26,11 @@ def agregar_jugadores (jugadores):
 def cronometro (tiempo_inicio):
     tiempo_actual = time.time()
     tiempo_de_juego = tiempo_actual - tiempo_inicio
-    return tiempo_de_juego
+    if tiempo_de_juego > 60 :
+        tiempo = str(round(tiempo_de_juego / 60,1)) + " minutos"
+    else :
+        tiempo = str(round(tiempo_de_juego,1)) + " segundos"
+    return tiempo
 
 def tablero_nuevo(numero_pares):
     tablero = []
@@ -85,7 +89,7 @@ def juego(tablero, jugador, jugadores):
         if par_igual : 
             jugadores [jugador] ["puntos"] += 1 
             pares += 1
-            if pares == (len(tablero)/2) :
+            if pares == int(len(tablero)/2) :
                 completo = True
         else:
             pierde = True
@@ -115,6 +119,6 @@ def main():
             completo , tablero , jugadores = juego (tablero,jugador,jugadores)
     
     tiempo = cronometro(tiempo_0)
-    print("El tiempo que tomo la partida es ",tiempo,"segundos")
+    print("El tiempo que tomo la partida es ",tiempo)
         
 main()
