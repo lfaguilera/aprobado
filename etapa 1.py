@@ -6,7 +6,7 @@ from collections import defaultdict
 
 def configurar_juego ():
     tiempo_inicio = time.time()
-    fichas= int(input("Con cuantos pares de fichas desea jugar : "))
+    fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
     tablero = tablero_nuevo(fichas)
     #jugadores = defaultdict(lambda:{"puntos":0,"turnos":0})
     jugadores = {}
@@ -15,10 +15,11 @@ def configurar_juego ():
     return tiempo_inicio , tablero , jugadores
 
 def agregar_jugadores (jugadores):
-    numero = int(input("Cual es el numero de jugadores :"))
+    numero = int(input("\033[0;32m"+"Cual es el numero de jugadores : "+"\033[0;m"))
     for i in range(0,numero):
+        color = random.randrange(31,37)
         jugador = str(input("Ingrese el nombre de jugador "+str(i+1)+" : "))
-        jugadores[jugador] = {"puntos":0,"turnos":0}
+        jugadores[jugador] = {"puntos":0,"turnos":0,"color":color}
     #print (jugadores)
     return jugadores
 
@@ -33,68 +34,88 @@ def cronometro (tiempo_inicio):
 
 def tablero_nuevo(numero_pares):
     tablero = []
+    letras_usadas = ""
     while len(tablero) < numero_pares*2:
         letra_may = random.randrange(65 , 90 , step= 1)
 
         ficha = chr(letra_may)
-        if ficha not in tablero :
+        if ficha not in letras_usadas :
+            letras_usadas += ficha
             tablero.append([ficha,0])
             tablero.append([ficha+"b",0])
     random.shuffle(tablero)
-    #print(tablero)
+    print(tablero)
     return tablero
 
-def girar_ficha (primer_numero,segundo_numero, tablero):
-
+def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
+    primer_numero += -1
+    segundo_numero += -1
     par_igual = False
 
-    if segundo_numero == 0 :
+    if segundo_numero == -1 :
         tablero[primer_numero][1]= 1
         
     else:
         tablero[segundo_numero][1]=1
-        mostrar_tablero(tablero)
-        if not (tablero[primer_numero][0][0] == tablero[segundo_numero][0][0]) :
+        
+        if not (tablero[primer_numero][0][0] == tablero[segundo_numero][0][0]) or primer_numero == segundo_numero  :
+            if primer_numero != segundo_numero :
+                print("\033[0;31m"+"\nLas fichas no coinciden"+"\033[0m") 
+                mostrar_tablero(tablero)
+                
             tablero[primer_numero][1] = 0
             tablero[segundo_numero][1] = 0
+            
         else :
+            
             tablero[primer_numero][1] = 1
             tablero[segundo_numero][1] = 1
+            mostrar_tablero(tablero)
             par_igual = True
             
     return tablero , par_igual
 
 
 def juego(tablero, jugador, jugadores , pares):
+
     completo = False
-    
     pierde = False
-    while not completo and not pierde :
+
+    while (not completo) and (not pierde) :
 
         mostrar_tablero(tablero)
 
         print("Elija una ficha")
 
-        opcion_1 = int(input('1er Posicion:'))
-        tablero , par_igual = girar_ficha (opcion_1-1,0,tablero)
+        opcion_1 = int(input('\n1er Posicion:'))
+        tablero , par_igual = girar_ficha (opcion_1,0,tablero)
         
         mostrar_tablero(tablero)
         
-        opcion_2 = int(input('2do Posicion:'))
-        tablero , par_igual = girar_ficha(opcion_1-1,opcion_2-1,tablero)
+        opcion_2 = int(input('\n2do Posicion:'))
+        if opcion_1 == opcion_2:
+                print("\033[0;31m"+"\nHa ingresado el mismo numero"+"\033[0m")
         
+        tablero , par_igual = girar_ficha(opcion_1,opcion_2,tablero)
+
         #mostrar_tablero(tablero)
-    
+        
         if par_igual : 
             jugadores [jugador] ["puntos"] += 1 
             pares += 1
-            if pares == int(len(tablero)/2) :
-                completo = True
+            
         else:
             pierde = True
-            print("Siguiente jugador")
+            print("\nSiguiente jugador\n")
             jugadores[jugador]["turnos"] += 1
+
+        if pares == int(len(tablero)/2) :
+                print ("\033[0;31m"+"Fin del juego"+"\033[0m")
+                completo = True
             
+
+
+
     return completo , tablero , jugadores , pares
     
 def mostrar_tablero (tablero):
@@ -112,13 +133,20 @@ def mostrar_tablero (tablero):
 def main():
     pares = 0
     completo = False
+    contador = 0
     tiempo_0 , tablero , jugadores = configurar_juego()
+    lista_jugadores = list(jugadores.keys())
     while not completo :
-        for jugador in jugadores.keys():
-            print("\nEs el turno de ",jugador,"\n")
-            completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)
+        jugador = lista_jugadores[contador]
+        print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
+        completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)
+        if contador == len(lista_jugadores)-1 :
+            contador = 0
+        else :
+            contador += 1
+    
     
     tiempo = cronometro(tiempo_0)
-    print("El tiempo que tomo la partida es ",tiempo)
+    print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
         
 main()
