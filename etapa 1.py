@@ -44,7 +44,7 @@ def tablero_nuevo(numero_pares):
             tablero.append([ficha,0])
             tablero.append([ficha+"b",0])
     random.shuffle(tablero)
-    print(tablero)
+    #print(tablero)
     return tablero
 
 def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
