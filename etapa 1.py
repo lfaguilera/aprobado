@@ -1,7 +1,7 @@
 import time
 import random
 from collections import defaultdict
-
+import os
 #memotest
 
 def configurar_juego ():
@@ -75,6 +75,21 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
             
     return tablero , par_igual
 
+def validacion_numeros (string,tablero) :
+    valido = False
+    while not valido :
+            try  : 
+                opcion = int(input(f'{string} :'))
+                if opcion > len(tablero) :
+                    print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
+                elif tablero[(opcion)-1][1]==1:
+                    print("\033[0;31m"+"\nEL numero ya no esta disponible"+"\033[0m")
+                else :
+                    valido=True
+            except : 
+                print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
+    return opcion 
+
 
 def juego(tablero, jugador, jugadores , pares):
 
@@ -82,23 +97,18 @@ def juego(tablero, jugador, jugadores , pares):
     pierde = False
 
     while (not completo) and (not pierde) :
-
+        valido = False
         mostrar_tablero(tablero)
 
         print("Elija una ficha")
 
-        opcion_1 = int(input('\n1er Posicion:'))
+        opcion_1 = validacion_numeros('\n1er Posicion:',tablero)
         tablero , par_igual = girar_ficha (opcion_1,0,tablero)
         
         mostrar_tablero(tablero)
-        
-        opcion_2 = int(input('\n2do Posicion:'))
-        if opcion_1 == opcion_2:
-                print("\033[0;31m"+"\nHa ingresado el mismo numero"+"\033[0m")
-        
-        tablero , par_igual = girar_ficha(opcion_1,opcion_2,tablero)
 
-        #mostrar_tablero(tablero)
+        opcion_2 = validacion_numeros('\n2do Posicion:',tablero)
+        tablero , par_igual = girar_ficha(opcion_1,opcion_2,tablero)
         
         if par_igual : 
             jugadores [jugador] ["puntos"] += 1 
@@ -106,6 +116,7 @@ def juego(tablero, jugador, jugadores , pares):
             
         else:
             pierde = True
+
             print("\nSiguiente jugador\n")
             jugadores[jugador]["turnos"] += 1
 
@@ -131,6 +142,7 @@ def mostrar_tablero (tablero):
     print(60*"*","\n\n","Fichas y posiciones :",fichas,"\n\n"+60*"*")
 
 def main():
+    os.system('cls')
     pares = 0
     completo = False
     contador = 0
@@ -148,5 +160,6 @@ def main():
     
     tiempo = cronometro(tiempo_0)
     print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
+    
         
 main()
