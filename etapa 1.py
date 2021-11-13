@@ -79,7 +79,8 @@ def validacion_numeros (string,tablero) :
     valido = False
     while not valido :
             try  : 
-                opcion = int(input(f'{string} :'))
+                print (string)
+                opcion = int(input())
                 if opcion > len(tablero) :
                     print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
                 elif tablero[(opcion)-1][1]==1:
