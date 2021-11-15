@@ -1,27 +1,5 @@
 import time
-import random
-from collections import defaultdict
-import os
-#memotest
-
-def configurar_juego ():
-    tiempo_inicio = time.time()
-    fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
-    tablero = tablero_nuevo(fichas)
-    #jugadores = defaultdict(lambda:{"puntos":0,"turnos":0})
-    jugadores = {}
-    jugadores = agregar_jugadores(jugadores)
-    
-    return tiempo_inicio , tablero , jugadores
-
-def agregar_jugadores (jugadores):
-    numero = int(input("\033[0;32m"+"Cual es el numero de jugadores : "+"\033[0;m"))
-    for i in range(0,numero):
-        color = random.randrange(31,37)
-        jugador = str(input("Ingrese el nombre de jugador "+str(i+1)+" : "))
-        jugadores[jugador] = {"puntos":0,"turnos":0,"color":color}
-    #print (jugadores)
-    return jugadores
+from interfaz import mostrar_tablero
 
 def cronometro (tiempo_inicio):
     tiempo_actual = time.time()
@@ -32,20 +10,6 @@ def cronometro (tiempo_inicio):
         tiempo = str(round(tiempo_de_juego,1)) + " segundos"
     return tiempo
 
-def tablero_nuevo(numero_pares):
-    tablero = []
-    letras_usadas = ""
-    while len(tablero) < numero_pares*2:
-        letra_may = random.randrange(65 , 90 , step= 1)
-
-        ficha = chr(letra_may)
-        if ficha not in letras_usadas :
-            letras_usadas += ficha
-            tablero.append([ficha,0])
-            tablero.append([ficha+"b",0])
-    random.shuffle(tablero)
-    #print(tablero)
-    return tablero
 
 def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
     primer_numero += -1
@@ -91,7 +55,6 @@ def validacion_numeros (string,tablero) :
                 print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
     return opcion 
 
-
 def juego(tablero, jugador, jugadores , pares):
 
     completo = False
@@ -129,38 +92,3 @@ def juego(tablero, jugador, jugadores , pares):
 
 
     return completo , tablero , jugadores , pares
-    
-def mostrar_tablero (tablero):
-    fichas = ""
-    numero = 1
-    for ficha in tablero :
-        if ficha[1] == 1 :
-            fichas += ("["+ficha[0][0]+"]")
-        else :
-            
-            fichas += "[" + str(numero) + "]"
-        numero += 1
-    print(60*"*","\n\n","Fichas y posiciones :",fichas,"\n\n"+60*"*")
-
-def main():
-    os.system('cls')
-    pares = 0
-    completo = False
-    contador = 0
-    tiempo_0 , tablero , jugadores = configurar_juego()
-    lista_jugadores = list(jugadores.keys())
-    while not completo :
-        jugador = lista_jugadores[contador]
-        print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
-        completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)
-        if contador == len(lista_jugadores)-1 :
-            contador = 0
-        else :
-            contador += 1
-    
-    
-    tiempo = cronometro(tiempo_0)
-    print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
-    
-        
-main()
