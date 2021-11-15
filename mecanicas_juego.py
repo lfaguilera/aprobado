@@ -45,7 +45,7 @@ def validacion_numeros (string,tablero) :
             try  : 
                 print (string)
                 opcion = int(input())
-                if opcion > len(tablero) :
+                if  opcion > len(tablero)  or opcion <= 0  :
                     print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
                 elif tablero[(opcion)-1][1]==1:
                     print("\033[0;31m"+"\nEL numero ya no esta disponible"+"\033[0m")

@@ -26,3 +26,5 @@ def orquestador():
     
 def main ():
     orquestador()
+
+main()
