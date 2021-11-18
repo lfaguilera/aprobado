@@ -1,8 +1,10 @@
 import time
 from interfaz import mostrar_tablero
 
-#Lucho: cronometro: retorna el tiempo que duro la partida, restando el tiempo de inicio de partida (que recibe como parametro) al tiempo actual.
+
 def cronometro (tiempo_inicio):
+    """
+    Luciano Federico Aguilera: cronometro: retorna el tiempo que duro la partida, restando el tiempo de inicio de partida (que recibe como parametro) al tiempo actual."""
     tiempo_actual = time.time()
     tiempo_de_juego = tiempo_actual - tiempo_inicio
     #Según la duración de la partida se muestra en:
@@ -15,8 +17,11 @@ def cronometro (tiempo_inicio):
     
     return tiempo
 
-#Lucho: La función recibe el tablero actualizado y dos 
+
 def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
+    """
+    Luciano Federico Aguilera: La función recibe el tablero actualizado y dos numeros de fichas
+    """ 
     #Ajustamos los valores seleccionados al rango de la lista
     primer_numero += -1
     segundo_numero += -1
@@ -45,8 +50,11 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
             
     return tablero , par_igual
 
-#Lucho: La función controla que el numero corresponda a una posicion valida del tablero
+
 def validacion_numeros (string,tablero) :
+    """
+    Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
+    """
     valido = False
     while not valido :
             try  : 
@@ -65,14 +73,14 @@ def validacion_numeros (string,tablero) :
                 print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
     return opcion 
 
-"""
-Lucho: La función juego:
-* Presenta al jugador de turno el tablero actualizado.
-* Solicita dos posiciones válidas del tablero.
-* En caso de acertar el par, suma puntos al jugador, y le permite seguir con el tablero actualizado.
-"""
-def juego(tablero, jugador, jugadores , pares):
 
+def juego(tablero, jugador, jugadores , pares):
+    """
+    Luciano Federico Aguilera : La función juego:
+    * Presenta al jugador de turno el tablero actualizado.
+    * Solicita dos posiciones válidas del tablero.
+    * En caso de acertar el par, suma puntos al jugador, y le permite seguir con el tablero actualizado.
+    """
     #Flags para controlar la continuidad del turno o de la partida.
     completo = False
     pierde = False

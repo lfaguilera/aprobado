@@ -5,7 +5,7 @@ from mecanicas_juego import cronometro
 
 def orquestador():
     """
-    Luciano Federico Aguilera: Funcion principal del programa.
+    Luciano Federico Aguilera y Jose Cerda : Funcion principal del programa.
     """
     os.system('cls')
     #Se definen las variables globales necesarias

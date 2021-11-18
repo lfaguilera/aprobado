@@ -1,9 +1,12 @@
 import time 
 import random
 
-#Lucho: La función define las variables para las opciones de juego.
-# Utiliza dos funciones definidas en este archivo
+
 def configurar_juego ():
+    """
+    Luciano Federico Aguilera y Jose Cerda : La función define las variables para las opciones de juego.
+    Utiliza dos funciones definidas en este archivo
+    """
     valido = False
     while not valido :
         fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
@@ -22,8 +25,11 @@ def configurar_juego ():
     
     return tiempo_inicio , tablero , jugadores
 
-#Lucho: La función define un diccionarrio en base a la cantidad de jugadores y asigna sus nombres como clave.
+
 def agregar_jugadores (jugadores):
+    """
+    Luciano Federico Aguilera: La función define un diccionarrio en base a la cantidad de jugadores y asigna sus nombres como clave.
+    """
     numero = int(input("\033[0;32m"+"Cual es el numero de jugadores : "+"\033[0;m"))
     for i in range(0,numero):
         color = random.randrange(31,37)
@@ -32,8 +38,11 @@ def agregar_jugadores (jugadores):
     
     return jugadores
 
-#Lucho: La función crea la lista tablero en base a un parametro entero
+
 def tablero_nuevo(numero_pares):
+    """
+    Luciano Federico Aguilera: La función crea la lista tablero en base a un parametro entero
+    """
     tablero = []
     #Variable para controlar pares únicos
     letras_usadas = ""
