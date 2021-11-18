@@ -5,7 +5,7 @@ import random
 # Utiliza dos funciones definidas en este archivo
 def configurar_juego ():
     valido = False
-    while not valido
+    while not valido :
         fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
         if 24 > fichas >=2 :
             valido = True
