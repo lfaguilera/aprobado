@@ -20,10 +20,17 @@ def orquestador():
         #Presentamos al jugador de turno y el tablero actualizado
         print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
         completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)#importada de mecanicas_juego.py
+        jugadores[jugador]["turnos"] += 1
         if contador == len(lista_jugadores)-1 :
             contador = 0
         else :
             contador += 1
+
+    ganador = lista_jugadores [0]
+    for jugador in lista_jugadores :
+        if jugadores[jugador]["puntos"] > jugadores[ganador]["puntos"] :
+            ganador = jugador
+    print ("El ganador fue ",ganador,"con ",jugadores[ganador]["puntos"]," puntos en ",jugadores[ganador]["turnos"],"turnos")
     
     #Una vez terminado el juego mostramos en pantalla la informacion de la partida
     tiempo = cronometro(tiempo_0)#importda de mecanicas_juego.py
