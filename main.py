@@ -2,7 +2,7 @@ import os
 from configuraciones import configurar_juego
 from mecanicas_juego import juego
 from mecanicas_juego import cronometro
-
+import time
 
 def orquestador():
     os.system('cls')
@@ -23,6 +23,8 @@ def orquestador():
     
     tiempo = cronometro(tiempo_0)
     print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
+    time.sleep(4)
+    
     
 def main ():
     orquestador()
