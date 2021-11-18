@@ -4,7 +4,13 @@ import random
 #Lucho: La función define las variables para las opciones de juego.
 # Utiliza dos funciones definidas en este archivo
 def configurar_juego ():
-    fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
+    valido = False
+    while not valido
+        fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
+        if 24 > fichas >=2 :
+            valido = True
+        else :
+            print ("El valor ingresado es invalido , por favor ingrese otro")
     tablero = tablero_nuevo(fichas)
     #configurar_juego= []
     
