@@ -9,10 +9,13 @@ def configurar_juego ():
     """
     valido = False
     while not valido :
-        fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
-        if 24 > fichas >=2 :
-            valido = True
-        else :
+        try :
+            fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
+            if 24 > fichas >=2 :
+                valido = True
+            else:
+                print ("El valor ingresado es invalido , por favor ingrese otro")
+        except :
             print ("El valor ingresado es invalido , por favor ingrese otro")
     tablero = tablero_nuevo(fichas)
     #configurar_juego= []
@@ -30,12 +33,21 @@ def agregar_jugadores (jugadores):
     """
     Luciano Federico Aguilera: La función define un diccionarrio en base a la cantidad de jugadores y asigna sus nombres como clave.
     """
-    numero = int(input("\033[0;32m"+"Cual es el numero de jugadores : "+"\033[0;m"))
-    for i in range(0,numero):
-        color = random.randrange(31,37)
-        jugador = str(input("Ingrese el nombre de jugador "+str(i+1)+" : "))
-        jugadores[jugador] = {"puntos":0,"turnos":0,"color":color}
-    
+    valido = False
+    while not valido :
+        try :
+            numero = int(input("\033[0;32m"+"Cual es el numero de jugadores : "+"\033[0;m"))
+            if 20 > numero > 0 :
+                for i in range(0,numero):
+                    color = random.randrange(31,37)
+                    jugador = str(input("Ingrese el nombre de jugador "+str(i+1)+" : "))
+                    jugadores[jugador] = {"puntos":0,"turnos":0,"color":color}
+                valido = True
+            else:
+                print ("El valor ingresado es invalido , por favor ingrese otro")
+        except :
+            print ("El valor ingresado es invalido , por favor ingrese otro")
+            
     return jugadores
 
 
