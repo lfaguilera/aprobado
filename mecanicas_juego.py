@@ -47,8 +47,10 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
             tablero[segundo_numero][1] = 1
             mostrar_tablero(tablero)
             par_igual = True
-            
-    return tablero , par_igual
+
+    estado_tablero =[tablero , par_igual]
+
+    return estado_tablero
 
 
 def validacion_numeros (string,tablero) :
@@ -115,6 +117,6 @@ def juego(tablero, jugador, jugadores , pares):
                 completo = True
             
 
+    estado_del_juego = [completo , tablero , jugadores , pares]
 
-
-    return completo , tablero , jugadores , pares
+    return estado_del_juego
