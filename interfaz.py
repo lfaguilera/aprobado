@@ -1,4 +1,4 @@
-#Lucho: Función encargada de presentar el tablero actualizado en pantalla
+#Jose y Luciano: Función encargada de presentar el tablero actualizado en pantalla
 def mostrar_tablero (tablero):
     fichas = ""
     numero = 1
