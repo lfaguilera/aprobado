@@ -7,8 +7,8 @@ def cronometro (tiempo_inicio):
     Luciano Federico Aguilera: cronometro: retorna el tiempo que duro la partida, restando el tiempo de inicio de partida (que recibe como parametro) al tiempo actual."""
     tiempo_actual = time.time()
     tiempo_de_juego = tiempo_actual - tiempo_inicio
+    
     #Según la duración de la partida se muestra en:
-    #Minutos
     if tiempo_de_juego > 60 :
         tiempo = str(round(tiempo_de_juego / 60,1)) + " minutos"
     #Segundos
@@ -17,6 +17,52 @@ def cronometro (tiempo_inicio):
     
     return tiempo
 
+def elegir_fichas(tablero):
+    
+    turno=[]
+
+    par_igual = False
+    
+    mostrar_tablero(tablero)#import interfaz.py
+            
+    print("Elija una ficha")
+        
+    opcion_1 = validacion_numeros('\n1er Posicion:',tablero)
+        
+    tablero , par_igual = girar_ficha (opcion_1,0,tablero)
+
+    mostrar_tablero(tablero)#import interfaz.py
+
+    opcion_2 = validacion_numeros('\n2do Posicion:',tablero)
+            
+    tablero , par_igual = girar_ficha(opcion_1,opcion_2,tablero)
+
+    turno=[tablero,par_igual]    
+
+    return turno
+
+def validacion_numeros (string,tablero) :
+    """
+    Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
+    """
+    
+    valido = False
+    while not valido :
+            try  : 
+                print (string)
+                opcion = int(input())
+                #Si el número no corresponde a una posicion
+                if  opcion > len(tablero)  or opcion <= 0  :
+                    print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
+                #Si el número pertenece a una ficha que ya fue seleccionada o adivinada. 
+                elif tablero[(opcion)-1][1]==1:
+                    print("\033[0;31m"+"\nEL numero ya no esta disponible"+"\033[0m")
+                else :
+                    valido=True
+            #Si se trata de un caracter no numérico
+            except : 
+                print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
+    return opcion 
 
 def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
     """
@@ -52,71 +98,17 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
 
     return estado_tablero
 
-
-def validacion_numeros (string,tablero) :
+def quien_gano(jugadores,lista_jugadores):
     """
-    Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
+    Jose Antonio Cerda: La función define quien gano el juego y lo presenta con sus respectivos puntos y turnos
     """
-    valido = False
-    while not valido :
-            try  : 
-                print (string)
-                opcion = int(input())
-                #Si el número no corresponde a una posicion
-                if  opcion > len(tablero)  or opcion <= 0  :
-                    print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
-                #Si el número pertenece a una ficha que ya fue seleccionada o adivinada. 
-                elif tablero[(opcion)-1][1]==1:
-                    print("\033[0;31m"+"\nEL numero ya no esta disponible"+"\033[0m")
-                else :
-                    valido=True
-            #Si se trata de un caracter no numérico
-            except : 
-                print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
-    return opcion 
-
-
-def juego(tablero, jugador, jugadores , pares):
-    """
-    Luciano Federico Aguilera : La función juego:
-    * Presenta al jugador de turno el tablero actualizado.
-    * Solicita dos posiciones válidas del tablero.
-    * En caso de acertar el par, suma puntos al jugador, y le permite seguir con el tablero actualizado.
-    """
-    #Flags para controlar la continuidad del turno o de la partida.
-    completo = False
-    pierde = False
-
-    while (not completo) and (not pierde) :
-        valido = False
-        mostrar_tablero(tablero)#importada de interfaz.py
-
-        print("Elija una ficha")
-        #Se valida la posición seleccionada
-        opcion_1 = validacion_numeros('\n1er Posicion:',tablero)#Función del archivo
-        #De ser válida:
-        tablero , par_igual = girar_ficha (opcion_1,0,tablero)#Función del archivo
-        
-        mostrar_tablero(tablero)
-        #El programa procede de la misma manera con la segunda posición.
-        opcion_2 = validacion_numeros('\n2do Posicion:',tablero)
-        tablero , par_igual = girar_ficha(opcion_1,opcion_2,tablero)
-        
-        if par_igual : 
-            jugadores [jugador] ["puntos"] += 1 
-            pares += 1
-            
-        else:
-            pierde = True
-
-            print("\nSiguiente jugador\n")
-            jugadores[jugador]["turnos"] += 1
-
-        if pares == int(len(tablero)/2) :
-                print ("\033[0;31m"+"Fin del juego"+"\033[0m")
-                completo = True
-            
-
-    estado_del_juego = [completo , tablero , jugadores , pares]
-
-    return estado_del_juego
+    
+    ganador = lista_jugadores[0]
+    
+    for jugador in lista_jugadores :
+    
+        if jugadores[jugador]["puntos"] > jugadores[ganador]["puntos"] :
+    
+            ganador = jugador
+    
+    print ("El ganador fue ",ganador,"con ",jugadores[ganador]["puntos"]," puntos en ",jugadores[ganador]["turnos"],"turnos")

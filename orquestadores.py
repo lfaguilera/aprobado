@@ -1,39 +1,71 @@
 import os
-from configuraciones import configurar_juego
-from mecanicas_juego import juego
-from mecanicas_juego import cronometro
+import time
+
+from configuraciones import agregar_jugadores
+from configuraciones import tablero_nuevo
+
+from mecanicas_juego import cronometro, elegir_fichas
+from mecanicas_juego import elegir_fichas
+from mecanicas_juego import quien_gano
+
 
 def orquestador():
-    """
-    Luciano Federico Aguilera y Jose Cerda : Funcion principal del programa.
-    """
     os.system('cls')
-    #Se definen las variables globales necesarias
-    pares = 0
-    completo = False
-    contador = 0
-    #Se solicitan los valores para las opciones de juego.
-    tiempo_0 , tablero , jugadores = configurar_juego()#importada de configuraciones.py
-    lista_jugadores = list(jugadores.keys())
 
-    while not completo :
+    #Variable necesaria para la finalizacion del juego
+    completo = False
+    
+    pares = 0
+    contador = 0
+    
+    tablero = tablero_nuevo()#importada de configuraciones.py
+    jugadores = agregar_jugadores ()#importada de configuraciones.py
+
+    lista_jugadores = list(jugadores.keys())
+    
+    tiempo_0 = time.time()
+
+    while not completo:
+
+        pierde=False
+
+        #El contador nos indica el jugador de turno
         jugador = lista_jugadores[contador]
-        #Presentamos al jugador de turno y el tablero actualizado
+        
+        #Presentamos al jugador de turno
         print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
-        completo , tablero , jugadores , pares = juego (tablero,jugador,jugadores , pares)#importada de mecanicas_juego.py
-        jugadores[jugador]["turnos"] += 1
+        
+        while not completo and not pierde:
+            
+            #El jugador elige las fichas del tablero
+            tablero , par_igual = elegir_fichas(tablero)#import mecanicas_juego.py
+
+            #Si acierta se le asignan los puntos, y se anota un par adivinado
+            if par_igual : 
+                jugadores [jugador] ["puntos"] += 1 
+                pares += 1
+            
+            #De lo contrario se le suma el turno y se retorna al while principal
+            else:
+                pierde = True
+
+                print("\nSiguiente jugador\n")
+                jugadores[jugador]["turnos"] += 1
+
+            #Si algun jugador adivina el ultimo par de fichas disponible el juego esta completo
+            if pares == int(len(tablero)/2) :
+                    print ("\033[0;31m"+"Fin del juego"+"\033[0m")
+                    completo = True
+        
+        #Se controla el contador para la vuelta de turnos
         if contador == len(lista_jugadores)-1 :
             contador = 0
         else :
             contador += 1
 
-    ganador = lista_jugadores [0]
-    for jugador in lista_jugadores :
-        if jugadores[jugador]["puntos"] > jugadores[ganador]["puntos"] :
-            ganador = jugador
-    print ("El ganador fue ",ganador,"con ",jugadores[ganador]["puntos"]," puntos en ",jugadores[ganador]["turnos"],"turnos")
+    #Se define el ganador y se lo presenta
+    quien_gano(jugadores,lista_jugadores)
     
-    #Una vez terminado el juego mostramos en pantalla la informacion de la partida
     tiempo = cronometro(tiempo_0)#importda de mecanicas_juego.py
     print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
 
