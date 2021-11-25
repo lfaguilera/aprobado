@@ -19,7 +19,7 @@ def configurar_juego ():
         except :
             print ("El valor ingresado es invalido , por favor ingrese otro")
     tablero = tablero_nuevo(fichas)
-    #configurar_juego= []
+
     
     jugadores = {}
     jugadores = agregar_jugadores(jugadores)
