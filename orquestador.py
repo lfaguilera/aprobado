@@ -28,6 +28,7 @@ def orquestador():
         #Presentamos al jugador de turno y el tablero actualizado
         print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
         #opcion_1=validar_opcion()
+        
         #elegir_ficha(opcion_1)
         
         #girarficha() #importada de mecanicas_juego

@@ -50,8 +50,6 @@ def tablero_nuevo():
             tablero.append([ficha+"b",0])
     #Shuffle "mezcla" las letras en el tablero
     random.shuffle(tablero)
-    print(type(tablero))
-    print(tablero)
-    print(tablero[0])
+    
     
     return tablero
