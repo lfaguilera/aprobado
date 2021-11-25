@@ -1,12 +1,9 @@
 import os
 import time
 
-from configuraciones import agregar_jugadores
-from configuraciones import tablero_nuevo
+from configuraciones import agregar_jugadores, tablero_nuevo
 
-from mecanicas_juego import cronometro, elegir_fichas
-from mecanicas_juego import elegir_fichas
-from mecanicas_juego import quien_gano
+from mecanicas_juego import cronometro, elegir_fichas, quien_gano
 
 
 def orquestador():
