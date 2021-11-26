@@ -29,7 +29,7 @@ def orquestador():
         jugador_de_turno = lista_jugadores[turno]
         #Por defecto el jugador no adivino pares
         pierde=False
-        print("\nEs el turno de ",f'\033[0;{jugadores[jugador_de_turno]["color"]}m',jugador_de_turno,"\033[0m","\n")
+        print("\nEs el turno de ",jugador_de_turno,"\n")
         
         #CORTE DE CONTROL: Si no acierta el par pierde el turno
         while (pares_encontrados < completo) and not pierde:

@@ -44,7 +44,7 @@ def elegir_fichas(tablero):
 
     return turno
 
-def validacion_numeros (tablero) :
+def validacion_numeros (tablero,test=False) :
     """
     Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
     
@@ -55,7 +55,7 @@ def validacion_numeros (tablero) :
                 opcion = int(input("numero :"))
                 #Si el número no corresponde a una posicion
                 if  opcion > len(tablero)  or opcion <= 0  :
-                    print ()
+                    print ("\nEL numero no corresponde a una ficha")
                 #Si el número pertenece a una ficha que ya fue seleccionada o adivinada. 
                 elif tablero[(opcion)-1][1]==True:
                     print("\nEL numero ya no esta disponible")
@@ -67,10 +67,15 @@ def validacion_numeros (tablero) :
     return opcion 
 
 
-def girar_ficha (primer_numero,segundo_numero, tablero):
+def girar_ficha (primer_numero,segundo_numero, tablero,test=False):
     """
     Luciano Federico Aguilera: La función recibe el tablero actualizado y dos numeros de fichas
-
+    >>> girar_ficha (1,2,[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]],True)
+    [[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]], False]
+    >>> girar_ficha (1,8,[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]],True)
+    [[['A', 1], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 1]], True]
+    >>> girar_ficha (4,2,[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]],True)
+    [[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]], False]
     """
     #Ajustamos los valores seleccionados al rango de la lista
     primer_numero += -1
@@ -88,8 +93,9 @@ def girar_ficha (primer_numero,segundo_numero, tablero):
         if not (tablero[primer_numero][0][0] == tablero[segundo_numero][0][0]) or primer_numero == segundo_numero  :
             
             if primer_numero != segundo_numero :
-                print("\nLas fichas no coinciden") 
-                mostrar_tablero(tablero)
+                if not test:
+                    print("\nLas fichas no coinciden") 
+                    mostrar_tablero(tablero)
                 
             tablero[primer_numero][1] = 0
             tablero[segundo_numero][1] = 0
@@ -98,7 +104,8 @@ def girar_ficha (primer_numero,segundo_numero, tablero):
             
             tablero[primer_numero][1] = 1
             tablero[segundo_numero][1] = 1
-            mostrar_tablero(tablero)
+            if not test:
+                mostrar_tablero(tablero)
             par_igual = True
 
     estado_tablero =[tablero , par_igual]

@@ -4,24 +4,36 @@ import random
 from interfaz import interfaz_jugadores
 
 
-def agregar_jugadores ():
+def agregar_jugadores (nom_jugadores=[]):
     """
     Luciano Federico Aguilera: La función define un diccionarrio en base a la cantidad de jugadores y asigna sus nombres como clave.
+    >>> agregar_jugadores (["juan","pepe","alberto"])
+    {'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}}
+    >>> agregar_jugadores (["Roberto","Guido","Franco"])
+    {'Roberto': {'puntos': 0, 'turnos': 0}, 'Guido': {'puntos': 0, 'turnos': 0}, 'Franco': {'puntos': 0, 'turnos': 0}}
+    >>> agregar_jugadores (["Jose","Luciano","Albero","Juan","Maria"])
+    {'Jose': {'puntos': 0, 'turnos': 0}, 'Luciano': {'puntos': 0, 'turnos': 0}, 'Albero': {'puntos': 0, 'turnos': 0}, 'Juan': {'puntos': 0, 'turnos': 0}, 'Maria': {'puntos': 0, 'turnos': 0}}
     """
     jugadores={}
-    nom_jugadores = interfaz_jugadores()
+    if len (nom_jugadores)<1:
+        nom_jugadores = interfaz_jugadores()
     
     for i in range(0,len(nom_jugadores)):
-        color = random.randrange(31,37)
         jugador = nom_jugadores[i]
-        jugadores[jugador] = {"puntos":0,"turnos":0,"color":color}
+        jugadores[jugador] = {"puntos":0,"turnos":0}
 
 
     return jugadores
 
-def tablero_nuevo():
+def tablero_nuevo(test=False,prueba=1):
     """
     Jose Antonio Cerda: La funcion crea un tablero de n pares de fichas
+    >>> tablero_nuevo(True,2)
+    [['A', False], ['Ab', False], ['B', False], ['Bb', False]]
+    >>> tablero_nuevo(True,5)
+    [['A', False], ['Ab', False], ['B', False], ['Bb', False], ['C', False], ['Cb', False], ['D', False], ['Db', False], ['E', False], ['Eb', False]]
+    >>> tablero_nuevo(True,4)
+    [['A', False], ['Ab', False], ['B', False], ['Bb', False], ['C', False], ['Cb', False], ['D', False], ['Db', False]]
     """
     tablero = []
 
@@ -33,20 +45,26 @@ def tablero_nuevo():
         try :
 
             #Corroboramos el ingreso de un maximo de 23 pares y un minimo de 2
-            fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
+            if not test:
+                fichas= int(input("\nCon cuantos pares de fichas desea jugar : "))
+            else :
+                fichas = prueba
             if 24 > fichas >=2 :
                 valido = True
             else :
-                print ("El valor ingresado es invalido , por favor ingrese otro")
+                if not test:
+                    print ("El valor ingresado es invalido , por favor ingrese otro")
         except:
-            print("El valor ingresado no es un numero. Ingrese uno nuevo.")
-
-    while len(tablero) < fichas*2:
+            if not test:
+                print("El valor ingresado no es un numero. Ingrese uno nuevo.")
+    letra = 65
+    while len(tablero) < fichas*2 or letra == 90:
         #Se obtiene un numero aleatorio a traves de la función randrange
-        letra_may = random.randrange(65 , 90 , step= 1)
+        letra_may = letra
         #(Por código ASCII el intervalo [65,90] corresponde a letras mayúsculas)
         #Convertimos el valor a letra
         ficha = chr(letra_may)
+        letra +=1
 
         if ficha not in letras_usadas :
 
@@ -54,10 +72,13 @@ def tablero_nuevo():
             #La primer posicion corresponde a la letra que contiene la ficha
             #La segunda posicion corresponde a un booleano que indica el estado de la ficha (cara arriba o cara abajo)
             tablero.append([ficha,False])
-            #Se crea un par identico, salvo por su segundo caracter "p"
-            tablero.append([ficha+"p",False])
+            #Se crea un par identico, salvo por su segundo caracter "b"
+            tablero.append([ficha+"b",False])
 
     #Shuffle "mezcla" las letras en el tablero
-    random.shuffle(tablero)
+    if not test:
+        random.shuffle(tablero)
     
     return tablero
+
+doctest.testmod()
