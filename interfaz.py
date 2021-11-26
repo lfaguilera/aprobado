@@ -7,11 +7,14 @@ def mostrar_tablero (tablero):
     fichas = ""
     numero = 1
     contador=0
+    
     for ficha in tablero :
+
         if contador==4:
             fichas+="\n "
             contador=0
-        if ficha[1] == 1 :
+        
+        if ficha[1] == True :
             fichas += ("["+ficha[0][0]+"]")
         else :
             

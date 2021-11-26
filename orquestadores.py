@@ -9,56 +9,57 @@ from mecanicas_juego import cronometro, elegir_fichas, quien_gano
 def orquestador():
     os.system('cls')
 
-    #Variable necesaria para la finalizacion del juego
-    completo = False
-    
-    pares = 0
-    contador = 0
-    
-    tablero = tablero_nuevo()#importada de configuraciones.py
-    jugadores = agregar_jugadores ()#importada de configuraciones.py
+    #Variables necesaria para la finalizacion del juego
+    pares_encontrados = 0
+    #Variable para contar los turnos de los jugadores
+    turno = 0
 
+    tablero = tablero_nuevo()#importada de configuraciones.py
+    #Con el tablero definido podemos determinar cuando el juego esta completo
+    completo = int(len(tablero)/2) 
+    
+    jugadores = agregar_jugadores ()#importada de configuraciones.py
+    #Lista para controlar los turnos
     lista_jugadores = list(jugadores.keys())
     
+    #inicia el tiempo
     tiempo_0 = time.time()
 
-    while not completo:
-
+    ###CORTE DE CONTROL###
+    while pares_encontrados < completo:
+        
+        jugador_de_turno = lista_jugadores[turno]
+        #Por defecto el jugador no adivino pares
         pierde=False
-
-        #El contador nos indica el jugador de turno
-        jugador = lista_jugadores[contador]
+        print("\nEs el turno de ",f'\033[0;{jugadores[jugador_de_turno]["color"]}m',jugador_de_turno,"\033[0m","\n")
         
-        #Presentamos al jugador de turno
-        print("\nEs el turno de ",f'\033[0;{jugadores[jugador]["color"]}m',jugador,"\033[0m","\n")
-        
-        while not completo and not pierde:
+        #CORTE DE CONTROL: Si no acierta el par pierde el turno
+        while (pares_encontrados < completo) and not pierde:
             
             #El jugador elige las fichas del tablero
             tablero , par_igual = elegir_fichas(tablero)#import mecanicas_juego.py
 
-            #Si acierta se le asignan los puntos, y se anota un par adivinado
+            #Si acierta se le asignan los puntos, y se anota un par adivinado. El jugador continua jugando.
             if par_igual : 
-                jugadores [jugador] ["puntos"] += 1 
-                pares += 1
+                jugadores [jugador_de_turno] ["puntos"] += 1 
+                pares_encontrados += 1
             
-            #De lo contrario se le suma el turno y se retorna al while principal
             else:
                 pierde = True
-
-                print("\nSiguiente jugador\n")
-                jugadores[jugador]["turnos"] += 1
-
-            #Si algun jugador adivina el ultimo par de fichas disponible el juego esta completo
-            if pares == int(len(tablero)/2) :
-                    print ("\033[0;31m"+"Fin del juego"+"\033[0m")
-                    completo = True
+    
+        ###FINALIZA EL TURNO###
         
+        jugadores[jugador_de_turno]["turnos"] += 1
         #Se controla el contador para la vuelta de turnos
-        if contador == len(lista_jugadores)-1 :
-            contador = 0
+        if turno == len(lista_jugadores)-1 :
+            turno = 0
         else :
-            contador += 1
+            turno += 1
+        print("\nSiguiente jugador\n")
+
+    ###FINALIZA EL JUEGO###
+    
+    print ("\033[0;31m"+"Fin del juego"+"\033[0m")
 
     #Se define el ganador y se lo presenta
     quien_gano(jugadores,lista_jugadores)

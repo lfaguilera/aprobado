@@ -21,16 +21,18 @@ def agregar_jugadores ():
 
 def tablero_nuevo():
     """
-    Jose Antonio Cerda: La funcion crea y devuelve un tablero
+    Jose Antonio Cerda: La funcion crea un tablero de n pares de fichas
     """
-    
     tablero = []
+
+    #Controla un unico par de fichas
     letras_usadas = ""
     valido = False
 
     while not valido :
         try :
-            
+
+            #Corroboramos el ingreso de un maximo de 23 pares y un minimo de 2
             fichas= int(input("\033[0;32m"+"\nCon cuantos pares de fichas desea jugar : "+"\033[0;m"))
             if 24 > fichas >=2 :
                 valido = True
@@ -47,9 +49,14 @@ def tablero_nuevo():
         ficha = chr(letra_may)
 
         if ficha not in letras_usadas :
+
             letras_usadas += ficha
-            tablero.append([ficha,0])
-            tablero.append([ficha+"b",0])
+            #La primer posicion corresponde a la letra que contiene la ficha
+            #La segunda posicion corresponde a un booleano que indica el estado de la ficha (cara arriba o cara abajo)
+            tablero.append([ficha,False])
+            #Se crea un par identico, salvo por su segundo caracter "p"
+            tablero.append([ficha+"p",False])
+
     #Shuffle "mezcla" las letras en el tablero
     random.shuffle(tablero)
     
