@@ -21,7 +21,7 @@ def mostrar_tablero (tablero):
     print(60*"*","\n\n","Fichas y posiciones :","\n",fichas,"\n\n"+60*"*")
 
 
-def agregar (ventana , jugador, nom_jugador):
+def agregar (ventana , jugador, nom_jugador, entrada):
     
     if jugador != "" and jugador not in nom_jugador:
         aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='left')
@@ -34,6 +34,7 @@ def agregar (ventana , jugador, nom_jugador):
     else :
         aviso = ttk.Label(ventana,text=f' nombre invalido ',background= "red",relief='solid',borderwidth=2,)
         aviso.grid(column=1,row=0)
+    entrada.delete(0,'end')
     return nom_jugador
 
 def guardar_jugadores(ventana):
@@ -53,7 +54,7 @@ def interfaz_jugadores ():
     entrada = ttk.Entry(ventana, textvariable=var_nombre)
     entrada.grid(column=0,row=0)
     
-    boton_agregar = ttk.Button(ventana,text="Agregar nuevo jugador",command= lambda :agregar(ventana,var_nombre.get(),nom_jugadores) )
+    boton_agregar = ttk.Button(ventana,text="Agregar nuevo jugador",command= lambda :agregar(ventana,var_nombre.get(),nom_jugadores,entrada) )
     boton_agregar.grid(column=0)
     boton_empezar = ttk.Button(ventana,text="Guardar jugadores",command=lambda: guardar_jugadores (ventana))
     boton_empezar.grid(column=0)
