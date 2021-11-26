@@ -47,38 +47,30 @@ def elegir_fichas(tablero):
 def validacion_numeros (tablero) :
     """
     Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
+    
     """
     valido = False
     while not valido :
             try  : 
-                opcion = int(input())
+                opcion = int(input("numero :"))
                 #Si el número no corresponde a una posicion
                 if  opcion > len(tablero)  or opcion <= 0  :
-                    print ("\033[0;31m"+"\nEl valor no corresponde a una posicion"+"\033[0m")
+                    print ()
                 #Si el número pertenece a una ficha que ya fue seleccionada o adivinada. 
                 elif tablero[(opcion)-1][1]==True:
-                    print("\033[0;31m"+"\nEL numero ya no esta disponible"+"\033[0m")
+                    print("\nEL numero ya no esta disponible")
                 else :
                     valido=True
             #Si se trata de un caracter no numérico
             except : 
-                print ( "\033[0;31m"+"\nNo se trata de un valor numerico"+"\033[0m")
+                print ( "\nNo se trata de un valor numerico")
     return opcion 
 
 
-def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
+def girar_ficha (primer_numero,segundo_numero, tablero):
     """
     Luciano Federico Aguilera: La función recibe el tablero actualizado y dos numeros de fichas
-    """ 
-    """
-    >>> validacion_numeros (3,5,[["A",0],["J",0],["C",0],["D",0],["C",0],["J",0],["D",0],["A",0]])
-    ([["A",0],["J",0],["C",1],["D",0],["C",1],["J",0],["D",0],["A",0]],True)
-    >>> validacion_numeros (8,1,[["A",0],["J",0],["C",0],["D",0],["C",0],["J",0],["D",0],["A",0]])
-    ([["A",1],["J",0],["C",0],["D",0],["C",0],["J",0],["D",0],["A",1]],True)
-    >>> validacion_numeros (3,7[["A",0],["J",0],["C",0],["D",0],["C",0],["J",0],["D",0],["A",0]])
-    ([["A",0],["J",0],["C",1],["D",0],["C",0],["J",0],["D",1],["A",0]],False)
-    
-    
+
     """
     #Ajustamos los valores seleccionados al rango de la lista
     primer_numero += -1
@@ -96,16 +88,16 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
         if not (tablero[primer_numero][0][0] == tablero[segundo_numero][0][0]) or primer_numero == segundo_numero  :
             
             if primer_numero != segundo_numero :
-                print("\033[0;31m"+"\nLas fichas no coinciden"+"\033[0m") 
+                print("\nLas fichas no coinciden") 
                 mostrar_tablero(tablero)
                 
-            tablero[primer_numero][1] = False
-            tablero[segundo_numero][1] = False
+            tablero[primer_numero][1] = 0
+            tablero[segundo_numero][1] = 0
             
         else :
             
-            tablero[primer_numero][1] = True
-            tablero[segundo_numero][1] = True
+            tablero[primer_numero][1] = 1
+            tablero[segundo_numero][1] = 1
             mostrar_tablero(tablero)
             par_igual = True
 
@@ -116,6 +108,12 @@ def girar_ficha (primer_numero,segundo_numero, tablero, reset=False):
 def quien_gano(jugadores,lista_jugadores):
     """
     Jose Antonio Cerda: La función define quien gano el juego y lo presenta con sus respectivos puntos y turnos
+    >>> quien_gano({"juan":{"puntos":0,"turnos":0,"color":0},"pepe":{"puntos":2,"turnos":1,"color":0}},["juan","pepe"])
+    El ganador fue  pepe con  2  puntos en  1 turnos
+    >>> quien_gano({"juan":{"puntos":3,"turnos":2,"color":0},"pepe":{"puntos":2,"turnos":1,"color":0}},["juan","pepe"])
+    El ganador fue  juan con  3  puntos en  2 turnos
+    >>> quien_gano({"juan":{"puntos":0,"turnos":0,"color":0},"pepe":{"puntos":5,"turnos":2,"color":0}},["juan","pepe"])
+    El ganador fue  pepe con  5  puntos en  2 turnos
     """
     ganador = lista_jugadores[0]
     
@@ -125,10 +123,8 @@ def quien_gano(jugadores,lista_jugadores):
     
             ganador = jugador
     
-    print ("El ganador fue ",f'\033[0;{jugadores[ganador]["color"]}m',ganador,"\033[0m","con ",jugadores[ganador]["puntos"]," puntos en ",jugadores[ganador]["turnos"],"turnos")
+    print ("El ganador fue ",ganador,"con ",jugadores[ganador]["puntos"]," puntos en ",jugadores[ganador]["turnos"],"turnos")
 
-#def main():
-#    validacion_numeros("",[["A",0],["J",0],["C",0],["D",0],["C",0],["J",0],["D",0],["A",0]])
-#    doctest.testmod()
 
-#main()
+doctest.testmod()
+

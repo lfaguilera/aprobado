@@ -1,8 +1,6 @@
 import os
 import time
-
 from configuraciones import agregar_jugadores, tablero_nuevo
-
 from mecanicas_juego import cronometro, elegir_fichas, quien_gano
 
 

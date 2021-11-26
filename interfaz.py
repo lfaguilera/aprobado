@@ -1,8 +1,9 @@
-from tkinter import Tk, ttk ,StringVar,Canvas
-
+import doctest
+from tkinter import Tk, ttk ,StringVar
 def mostrar_tablero (tablero):
     """
     Luciano Federico Aguilera y Jose Cerda: Función encargada de presentar el tablero actualizado en pantalla
+    
     """
     fichas = ""
     numero = 1
@@ -67,3 +68,4 @@ def interfaz_jugadores ():
     ventana.mainloop()
     
     return nom_jugadores
+doctest.testmod()
