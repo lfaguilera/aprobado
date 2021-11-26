@@ -97,13 +97,13 @@ def girar_ficha (primer_numero,segundo_numero, tablero,test=False):
                     print("\nLas fichas no coinciden") 
                     mostrar_tablero(tablero)
                 
-            tablero[primer_numero][1] = 0
-            tablero[segundo_numero][1] = 0
+            tablero[primer_numero][1] = False
+            tablero[segundo_numero][1] = False
             
         else :
             
-            tablero[primer_numero][1] = 1
-            tablero[segundo_numero][1] = 1
+            tablero[primer_numero][1] = True
+            tablero[segundo_numero][1] = True
             if not test:
                 mostrar_tablero(tablero)
             par_igual = True
