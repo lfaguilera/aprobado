@@ -1,6 +1,7 @@
-from tkinter import Label, Tk , ttk, font
+from tkinter import Label, Tk , ttk,BooleanVar
 from PIL import ImageTk ,Image 
-
+import time
+from orquestadores import orquestador
 def terminar_partida (ventana):
     ventana.destroy()
 
@@ -46,9 +47,10 @@ def formato_ranking(jugadores,maximo_partidas):
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
  
-    eleccion_jugador(ventana_rk,maximo_partidas)
+    continuar = eleccion_jugador(ventana_rk,maximo_partidas)
     
     ventana_rk.mainloop()
+    return continuar
 
 def datos_jugador(fila,jugador,ventana_rk):
     if fila == 2 :
@@ -66,18 +68,30 @@ def datos_jugador(fila,jugador,ventana_rk):
         puesto_jugador = Label(text=str(fila-1),font="Cascadia 16")
         puesto_jugador.grid(column=0,row=fila)
 
+def volver_a_jugar(ventana_rk,continuar):
+    ventana_rk.destroy()
+    continuar = True
+    return continuar
+
 def eleccion_jugador(ventana_rk,maximo_partidas):
+    continuar = BooleanVar()
     boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command=lambda :terminar_partida(ventana_rk))
     boton_fin.grid(column=4,rowspan=30)
     if not maximo_partidas :
-        boton_repetir = ttk.Button(ventana_rk,text="Volver a jugar")
+        boton_repetir = ttk.Button(ventana_rk,text="Volver a jugar",command= lambda : volver_a_jugar(ventana_rk,continuar))
         boton_repetir.grid(column=4,rowspan=30)
     else :
         boton_repetir = Label(ventana_rk,text="Maximo de partidas alcanzado",background='red')
         boton_repetir.grid(column=4,rowspan=30)
+    return continuar
 
 def guardar_partida(jugadores):
-
+    puntajes= open ("archivo",'r')
+    
     return 0
 
-formato_ranking({'juan': {'puntos': 10, 'turnos': 3}, 'pepe': {'puntos': 5, 'turnos': 5},'Marley': {'puntos': 0, 'turnos': 1},'Barasi': {'puntos': 1, 'turnos': 8}, 'claudio': {'puntos': 3, 'turnos': 4}, 'pedro': {'puntos': 2, 'turnos': 7}},False)
+
+def rankear(jugadores):
+    continuar = formato_ranking(jugadores,False)
+    guardar_partida(jugadores)
+    return continuar
