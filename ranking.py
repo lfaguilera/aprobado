@@ -86,7 +86,7 @@ def eleccion_jugador(ventana_rk,maximo_partidas):
     return continuar
 
 def guardar_partida(jugadores):
-    puntajes= open ("archivo",'r')
+    #puntajes= open ("archivo",'r')
     
     return 0
 
