@@ -65,3 +65,4 @@ def orquestador():
     tiempo = cronometro(tiempo_0)#importda de mecanicas_juego.py
     print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
 
+    return jugadores
