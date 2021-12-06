@@ -2,8 +2,10 @@ from tkinter import Label, Tk , ttk,BooleanVar
 from PIL import ImageTk ,Image 
 import time
 from orquestadores import orquestador
-def terminar_partida (ventana):
+def terminar_partida (ventana,continuar):
     ventana.destroy()
+    continuar = False
+    return continuar
 
 def formato_ranking(jugadores,maximo_partidas):
     ventana_rk = Tk()
@@ -74,8 +76,8 @@ def volver_a_jugar(ventana_rk,continuar):
     return continuar
 
 def eleccion_jugador(ventana_rk,maximo_partidas):
-    continuar = BooleanVar()
-    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command=lambda :terminar_partida(ventana_rk))
+    continuar = BooleanVar().initialize(False)
+    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command=lambda :terminar_partida(ventana_rk,continuar))
     boton_fin.grid(column=4,rowspan=30)
     if not maximo_partidas :
         boton_repetir = ttk.Button(ventana_rk,text="Volver a jugar",command= lambda : volver_a_jugar(ventana_rk,continuar))
