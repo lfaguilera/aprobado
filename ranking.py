@@ -34,7 +34,7 @@ def formato_ranking(jugadores,maximo_partidas):
     segundo.grid(column=0,row=3)
     tercero = Label (ventana_rk,image= bronce )
     tercero.grid(column=0,row=4)
-    
+
     fila = 1
     turnos=0
     jugadores_ord = sorted(jugadores.items(), key=lambda x: x[1]['puntos'], reverse=True)
@@ -45,7 +45,7 @@ def formato_ranking(jugadores,maximo_partidas):
     promedio_turnos=round(turnos/len(jugadores.keys()),1)
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
-
+ 
     eleccion_jugador(ventana_rk,maximo_partidas)
     
     ventana_rk.mainloop()
