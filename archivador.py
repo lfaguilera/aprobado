@@ -12,7 +12,7 @@ def leer(archivo):
     return [registro,continuar]
 
 def comparar_usuario(usuario):
-    usuarios = open("usuario.csv","r")
+    usuarios = open("datos_juego\\usuario.csv","r")
     existe=False
     mensaje=''
     usuario_registrado, continuar= leer(usuarios)
@@ -31,7 +31,7 @@ def registrar_usuario(usuario,clave):
     #usuarios: nombre,clave
     NOMBRE=0
     CLAVE=1
-    usuarios = open("usuarios.csv","rw")
+    usuarios = open("datos_juego\\usuarios.csv","rw")
     usuarios.write(f'{usuario},{clave},0,0\n')
 
     usuarios.close()
@@ -46,7 +46,7 @@ def validar_usuario_nuevo(usuario):
     mensaje=''
     existe=False
     respuesta=[]
-    usuarios = open("usuario.csv","r")
+    usuarios = open("datos_juego\\usuarios.csv","r")
     usuario_registrado, continuar= leer(usuarios)
     
     if len(usuario)<4 or len(usuario)>15:

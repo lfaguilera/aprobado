@@ -50,7 +50,7 @@ def interfaz_jugadores ():
     ventana = Tk()
     ventana.config(width=500,height=300)
     ventana.title("MemoTest")
-    ventana.iconbitmap("icon.ico")
+    ventana.iconbitmap("imagenes\\icon.ico")
     ventana.minsize(height=200,width=300)
     
     var_nombre = StringVar()
