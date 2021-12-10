@@ -97,6 +97,7 @@ def rankear(jugadores):
     continuar = formato_ranking(jugadores,False)
     guardar_partida(jugadores)
     return continuar
+
 """
 def leer_partidas (ubicacion):
     datos = open ("datos_partidas\\partidas.csv")
@@ -107,4 +108,5 @@ def leer_partidas (ubicacion):
         linea_anterior = linea.rstrip().split(',')
         linea_nueva = jugadores[jugador][aciertos]
         menor = 
+
 """
