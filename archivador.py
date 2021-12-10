@@ -98,23 +98,30 @@ def ingresar(usuario,clave,puntos=0,turnos=0):
 def guardar_partida (jugadores,fin_partida):
     
     import os
+    
     if os.stat("partidas_guardadas\\partidas.csv").st_size != 0:
         datos = open("partidas_guardadas\\partidas.csv","r")
         linea = datos.readline()
         datos_mod = open ("partidas_guardadas\\partidas_mod.csv","w") 
-        contador = 0
-        while linea and contador < len(jugadores.keys()):
+        
+        jugador =  list(jugadores.keys())
+        while linea or len(jugador)>0:
 
-            jugador = jugadores.keys()[contador]
+            
             linea_anterior = linea.rstrip().split(',')
-            linea_nueva = dic_csv(jugador,jugadores,fin_partida).rstrip().split(',')
-            menor = min(linea_anterior[3],linea_nueva[3])
-            if menor == linea_nueva :
+            
+            if jugador:
+                linea_nueva = dic_csv(jugador[0],jugadores,fin_partida).rstrip().split(',')
+
+            if (int(linea_anterior[3]) <= int(linea_nueva[3])) and len(jugador)>0:
                 datos_mod.write(list_csv(linea_nueva))
-                linea = datos.readline()
+                jugador.pop(0)
+                
             else:
                 datos_mod.write(list_csv(linea_anterior))
-                contador += 1
+                linea = datos.readline()
+      
+                
 
     else:
         datos = open("partidas_guardadas\\partidas.csv","a")
@@ -123,6 +130,10 @@ def guardar_partida (jugadores,fin_partida):
             datos.write(linea)
     
     datos.close()
+    datos_mod.close()
+    os.remove("partidas_guardadas\\partidas.csv")
+    os.replace("partidas_guardadas\\partidas_mod.csv","partidas_guardadas\\partidas.csv")
+
 
 def dic_csv (jugador,diccionario,fin_partida):
     aciertos = diccionario[jugador]['puntos']
@@ -140,4 +151,4 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
-#guardar_partida({'juan': {'puntos': 100, 'turnos': 8}, 'pepe': {'puntos': 8, 'turnos': 8}, 'alberto': {'puntos': 5, 'turnos': 5}},["15/10/98","20:58"])
+guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
