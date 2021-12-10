@@ -120,8 +120,6 @@ def guardar_partida (jugadores,fin_partida):
             else:
                 datos_mod.write(list_csv(linea_anterior))
                 linea = datos.readline()
-      
-                
 
     else:
         datos = open("partidas_guardadas\\partidas.csv","a")
@@ -151,4 +149,4 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
-guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
+#guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
