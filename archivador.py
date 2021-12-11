@@ -48,7 +48,7 @@ def registrar_usuario(usuario,clave):
     NOMBRE=0
     CLAVE=1
     usuarios = open("datos_juego\\usuarios.csv","a")
-    usuarios.write(f'{usuario},{clave},0,0\n')
+    usuarios.write(f'{usuario},{clave}\n')
 
     usuarios.close()
     return

@@ -1,6 +1,7 @@
 import doctest
 from tkinter import Tk, ttk ,StringVar
 from archivador import validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario, chequear_usuario
+import time
 
 FUENTE =None
 
@@ -106,6 +107,8 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
         aviso = ttk.Label(ventana_rg ,text='REGISTRADO',background='green',relief='solid',borderwidth=2)
         aviso.grid(column=1,row=0)
         registrar_usuario(nombre,clave)
+        time.sleep(2)
+        ventana_rg.destroy()
     else:
         aviso = ttk.Label(ventana_rg ,text='¡Uy! Algo no salió bien.',background='red',relief='solid',borderwidth=2)
         aviso.grid(column=1,row=0)
