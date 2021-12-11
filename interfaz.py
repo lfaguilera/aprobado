@@ -1,10 +1,12 @@
 import doctest
 from tkinter import Tk, ttk ,StringVar
-from archivador import validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario, chequear_usuario
+from archivador import leer_configuraciones, validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario, chequear_usuario
 import time
 
-FUENTE =None
 
+
+FUENTE =None
+MAXIMO_JUGADORES = 1
 def mostrar_tablero (tablero):
     """
     Luciano Federico Aguilera y Jose Cerda: Función encargada de presentar el tablero actualizado en pantalla
@@ -167,30 +169,39 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
     
     #archivo=ingresar_usuario(jugador)
     usuario_valido, clave_valida =  chequear_usuario(jugador,clave)
-    if jugador != "" and jugador not in nom_jugador and usuario_valido and clave_valida:
+    config = leer_configuraciones()
+    maximo = int(config[MAXIMO_JUGADORES])
+    print(maximo,len(nom_jugador))
     
-        aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='center',font=FUENTE)
-        aviso_jugador.grid(column=1)
+    if len(nom_jugador) < maximo:
+
+        if jugador != "" and jugador not in nom_jugador and usuario_valido and clave_valida:
         
+            aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='center',font=FUENTE)
+            aviso_jugador.grid(column=1)
+            
+            
+            
+            aviso = ttk.Label(ventana,text="     Jugador agregado      ",background='green',relief='solid',borderwidth=2,font=FUENTE)
+            aviso.grid(column=1,row=0)
+            nom_jugador.append(jugador)
         
+        elif not usuario_valido  :
         
-        aviso = ttk.Label(ventana,text="   Jugador agregado    ",background='green',relief='solid',borderwidth=2,font=FUENTE)
-        aviso.grid(column=1,row=0)
-        nom_jugador.append(jugador)
+            aviso = ttk.Label(ventana,text=f' Usuario no registrado ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso.grid(column=1,row=0)
+
+        elif usuario_valido and not clave_valida :
     
-    elif not usuario_valido  :
-      
-        aviso = ttk.Label(ventana,text=f' Usuario no registrado ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
-        aviso.grid(column=1,row=0)
+            aviso = ttk.Label(ventana,text=f'La clave no corresponde',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso.grid(column=1,row=0)
 
-    elif usuario_valido and not clave_valida :
-   
-        aviso = ttk.Label(ventana,text=f'La clave no corresponde',background= "red",relief='solid',borderwidth=2,font=FUENTE)
-        aviso.grid(column=1,row=0)
-
+        else :
+            
+            aviso = ttk.Label(ventana,text=f'   Usuario invalido    ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso.grid(column=1,row=0)
     else :
-        
-        aviso = ttk.Label(ventana,text=f'   Usuario invalido    ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+        aviso = ttk.Label(ventana,text=f'  Maximo de jugadores  ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
     entrada.delete(0,'end')
     return nom_jugador

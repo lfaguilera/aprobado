@@ -1,3 +1,4 @@
+from tkinter import BooleanVar
 from orquestadores import orquestador
 from ranking import rankear
 from archivador import leer_configuraciones
@@ -11,5 +12,6 @@ def main ():
     while contador != maximo and continuar:
         jugadores,fin_partida = orquestador()
         continuar = rankear(jugadores,fin_partida)
-
+        
+        
 main()

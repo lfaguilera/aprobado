@@ -4,15 +4,16 @@ import time
 from orquestadores import orquestador
 from archivador import guardar_partida
 def terminar_partida (ventana,continuar):
-    ventana.destroy()
     continuar = False
     return continuar
 
 def formato_ranking(jugadores,maximo_partidas,fin_partida):
+    
     ventana_rk = Tk()
     ventana_rk.config(width=600,height=800)
     ventana_rk.title("MemoTest")
     ventana_rk.iconbitmap("imagenes\\icon.ico")
+    continuar = False
 
     img_corona =ImageTk.PhotoImage( Image.open("imagenes\\corona.png"))    
     oro = ImageTk.PhotoImage( Image.open("imagenes\\oro.png"))
@@ -34,10 +35,12 @@ def formato_ranking(jugadores,maximo_partidas,fin_partida):
     
     primer = Label(ventana_rk,image= oro )
     primer.grid(column=0,row=2)
-    segundo = Label(ventana_rk,image=plata )
-    segundo.grid(column=0,row=3)
-    tercero = Label (ventana_rk,image= bronce )
-    tercero.grid(column=0,row=4)
+    if len(jugadores.keys())>1:
+        segundo = Label(ventana_rk,image=plata )
+        segundo.grid(column=0,row=3)
+    if len(jugadores.keys())>2:
+        tercero = Label (ventana_rk,image= bronce )
+        tercero.grid(column=0,row=4)
 
     fila = 1
     turnos=0
@@ -50,7 +53,7 @@ def formato_ranking(jugadores,maximo_partidas,fin_partida):
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
  
-    continuar = eleccion_jugador(ventana_rk,maximo_partidas)
+    continuar = eleccion_jugador(ventana_rk,maximo_partidas,continuar)
     
     ventana_rk.mainloop()
     guardar_partida(jugadores,fin_partida)
@@ -73,12 +76,12 @@ def datos_jugador(fila,jugador,ventana_rk):
         puesto_jugador.grid(column=0,row=fila)
 
 def volver_a_jugar(ventana_rk,continuar):
-    ventana_rk.destroy()
+    
     continuar = True
     return continuar
 
-def eleccion_jugador(ventana_rk,maximo_partidas):
-    continuar = BooleanVar().initialize(False)
+def eleccion_jugador(ventana_rk,maximo_partidas,continuar):
+    
     boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command=lambda :terminar_partida(ventana_rk,continuar))
     boton_fin.grid(column=4,rowspan=30)
     if not maximo_partidas :
@@ -87,23 +90,13 @@ def eleccion_jugador(ventana_rk,maximo_partidas):
     else :
         boton_repetir = Label(ventana_rk,text="Maximo de partidas alcanzado",background='red')
         boton_repetir.grid(column=4,rowspan=30)
+    #ventana_rk.destroy()
     return continuar
 
 
 def rankear(jugadores,fin_partida):
     continuar = formato_ranking(jugadores,False,fin_partida)
     guardar_partida(jugadores,fin_partida)
+    
     return continuar
 
-"""
-def leer_partidas (ubicacion):
-    datos = open ("datos_partidas\\partidas.csv")
-    linea = datos.readline()
-    datos_mod = open ("datos_partidas\\partidas_mod.csv","w") 
-    
-    while linea :
-        linea_anterior = linea.rstrip().split(',')
-        linea_nueva = jugadores[jugador][aciertos]
-        menor = 
-
-"""
