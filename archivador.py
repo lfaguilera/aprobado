@@ -2,6 +2,18 @@ NOMBRE=0
 CLAVE=1
 FECHA = 0
 HORA = 1
+NOMBRE_USUARIO = 0
+CLAVE_USUARIO = 1
+
+def leer_configuraciones ():
+    datos = open("datos_juego\\configuraciones.csv","r")
+    datos.readline()
+    linea = datos.readline()
+    list_config = linea.rstrip("\n").split(",") if linea else [4,2,2,False]
+    
+    datos.close()
+    return list_config
+
 
 def leer(archivo):
     linea = archivo.readline()
@@ -41,7 +53,30 @@ def registrar_usuario(usuario,clave):
     usuarios.close()
     return
         
-        
+def chequear_usuario (usuario,clave):
+    """
+    Alumno : Luciano Federico Aguilera
+
+    """
+    usuario_valido = False
+    usuarios_reg = open("datos_juego\\usuarios.csv","r")
+    usuarios_reg.readline()
+    linea = usuarios_reg.readline()
+    while linea and not usuario_valido:
+        linea = linea.rstrip("\n").split(",")
+        if linea[NOMBRE_USUARIO] == usuario:
+            usuario_valido = True
+        else:
+            linea = usuarios_reg.readline()
+
+    if usuario_valido and clave == linea[CLAVE_USUARIO] :
+        clave_valida = True
+    else :
+        clave_valida = False
+
+
+    usuarios_reg.close()
+    return usuario_valido, clave_valida
 
 def validar_usuario_nuevo(usuario):
     usuario=str(usuario)
@@ -154,4 +189,4 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
-guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
+#guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])

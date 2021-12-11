@@ -1,7 +1,8 @@
 import doctest
 from tkinter import Tk, ttk ,StringVar
+from archivador import validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario, chequear_usuario
 
-from archivador import validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario
+FUENTE =None
 
 def mostrar_tablero (tablero):
     """
@@ -29,6 +30,9 @@ def mostrar_tablero (tablero):
 
 
 def ventana_registrar_jugador():
+    """
+    Alumno : Cerda Jose
+    """
     ventana_rg = Tk()
     ventana_rg.config(width=500,height=300)
     ventana_rg.title("MemoTest\REGISTRAR")
@@ -50,24 +54,27 @@ def ventana_registrar_jugador():
     entrada_clave_dos.grid(column=0,row=5)
 
     
-    nombre = ttk.Label(ventana_rg,text="Ingrese un nombre de usuario:", justify='center')
+    nombre = ttk.Label(ventana_rg,text="Ingrese un nombre de usuario:", justify='center',font=FUENTE)
     nombre.grid(column=0,row=0)
 
-    clave = ttk.Label(ventana_rg,text="Ingrese una clave:", justify='center')
+    clave = ttk.Label(ventana_rg,text="Ingrese una clave:", justify='center',font=FUENTE)
     clave.grid(column=0,row=2)
 
-    clave_dos = ttk.Label(ventana_rg,text="Reingrese la clave:", justify='center')
+    clave_dos = ttk.Label(ventana_rg,text="Reingrese la clave:", justify='center',font=FUENTE)
     clave_dos.grid(column=0,row=4)
 
     boton_registrar = ttk.Button(ventana_rg,text="Registrar", command= lambda :registrar_jugador(ventana_rg, entrada_nombre.get(), entrada_clave.get(), entrada_clave_dos.get() ))
     boton_registrar.grid(column=0)
 
 def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
-    aviso = ttk.Label(ventana_rg ,text='')
+    """
+    Alumno : Cerda Jose
+    """
+    aviso = ttk.Label(ventana_rg ,text='',font=FUENTE)
     aviso.grid(column=1,row=1)
-    aviso_clave = ttk.Label(ventana_rg ,text='')
+    aviso_clave = ttk.Label(ventana_rg ,text='',font=FUENTE)
     aviso_clave.grid(column=1,row=1)
-    aviso_clave_dos = ttk.Label(ventana_rg ,text='')
+    aviso_clave_dos = ttk.Label(ventana_rg ,text='',font=FUENTE)
     aviso_clave_dos.grid(column=1,row=1)
 
     aviso_clave = ''
@@ -107,7 +114,9 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
     pass
 
 def interfaz_jugadores ():
-
+    """
+    Alumno : Aguilera Luciano Federico
+    """
     ventana = Tk()
     ventana.config(width=500,height=300)
     ventana.title("MemoTest")
@@ -119,13 +128,13 @@ def interfaz_jugadores ():
 
     nom_jugadores = []
 
-    nombre = ttk.Label(ventana,text="Ingrese tu nombre de usuario:", justify='center')
+    nombre = ttk.Label(ventana,text="Ingrese tu nombre de usuario:", justify='center',font=FUENTE)
     nombre.grid(column=0,row=0, padx=2,pady=2)
 
     entrada_nombre = ttk.Entry(ventana, textvariable = var_nombre, justify='center')
     entrada_nombre.grid(column=0,row=1, padx=1,pady=1)
 
-    clave = ttk.Label(ventana,text="Ingrese tu clave:", justify='center')
+    clave = ttk.Label(ventana,text="Ingrese tu clave:", justify='center',font=FUENTE)
     clave.grid(column=0,row=2, padx=2,pady=2)
 
     entrada_clave = ttk.Entry(ventana, textvariable = var_clave, justify='center')
@@ -137,11 +146,11 @@ def interfaz_jugadores ():
     boton_registrar = ttk.Button(ventana,text="Registrar Jugador",command= lambda :ventana_registrar_jugador())
     boton_registrar.grid(column=0,row=5, padx=2,pady=2)
 
-    boton_comenzar = ttk.Button(ventana,text="Comenzar",command=lambda: comenzar (ventana))
+    boton_comenzar = ttk.Button(ventana,text="Comenzar",command=lambda: comenzar (ventana,nom_jugadores))
     boton_comenzar.grid(column=0,row=6, padx=2,pady=2)
 
-    jugadores_cargados = ttk.Label(ventana,text="Jugadores Ingresados :",justify='left')
-    jugadores_cargados.grid(column=2,row=0, padx=2,pady=2)
+    jugadores_cargados = ttk.Label(ventana,text="Jugadores Ingresados :",justify='left',font=FUENTE)
+    jugadores_cargados.grid(column=1,row=1, padx=2,pady=2)
 
     ventana.mainloop()
     
@@ -149,22 +158,47 @@ def interfaz_jugadores ():
 doctest.testmod()
 
 def ingresar (ventana , jugador, clave, nom_jugador, entrada):
+    """
+    Alumno : Aguilera Luciano Federico
+    """
     
     #archivo=ingresar_usuario(jugador)
+    usuario_valido, clave_valida =  chequear_usuario(jugador,clave)
+    if jugador != "" and jugador not in nom_jugador and usuario_valido and clave_valida:
     
-    if jugador != "" and jugador not in nom_jugador:
-        aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='center')
-        aviso_jugador.grid(column=2)
+        aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='center',font=FUENTE)
+        aviso_jugador.grid(column=1)
         
         
-        aviso = ttk.Label(ventana,text="Jugador agregado",background='green',relief='solid',borderwidth=2)
+        
+        aviso = ttk.Label(ventana,text="   Jugador agregado    ",background='green',relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
         nom_jugador.append(jugador)
+    
+    elif not usuario_valido  :
+      
+        aviso = ttk.Label(ventana,text=f' Usuario no registrado ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+        aviso.grid(column=1,row=0)
+
+    elif usuario_valido and not clave_valida :
+   
+        aviso = ttk.Label(ventana,text=f'La clave no corresponde',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+        aviso.grid(column=1,row=0)
+
     else :
-        aviso = ttk.Label(ventana,text=f'Usuario invalido ',background= "red",relief='solid',borderwidth=2,)
+        
+        aviso = ttk.Label(ventana,text=f'   Usuario invalido    ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
     entrada.delete(0,'end')
     return nom_jugador
 
-def comenzar(ventana):
-    ventana.destroy()
+def comenzar(ventana,nom_jugadores):
+    """
+    Alumno : Aguilera Luciano Fedrico
+    """
+    if (len(nom_jugadores)>=2):
+
+        ventana.destroy()
+    else : 
+        aviso = ttk.Label(ventana,text=f'El minimo son 2 jugadores',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+        aviso.grid(column=1,row=0)

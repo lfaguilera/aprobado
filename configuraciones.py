@@ -2,6 +2,8 @@ import doctest
 
 import random
 from interfaz import interfaz_jugadores
+from archivador import leer_configuraciones
+CANTIDAD_FICHAS = 0
 
 
 def agregar_jugadores (nom_jugadores=[]):
@@ -28,11 +30,11 @@ def agregar_jugadores (nom_jugadores=[]):
 def tablero_nuevo(test=False,prueba=1):
     """
     Jose Antonio Cerda: La funcion crea un tablero de n pares de fichas
-    >>> tablero_nuevo(True,2)
-    [['A', False], ['Ab', False], ['B', False], ['Bb', False]]
-    >>> tablero_nuevo(True,5)
-    [['A', False], ['Ab', False], ['B', False], ['Bb', False], ['C', False], ['Cb', False], ['D', False], ['Db', False], ['E', False], ['Eb', False]]
     >>> tablero_nuevo(True,4)
+    [['A', False], ['Ab', False], ['B', False], ['Bb', False]]
+    >>> tablero_nuevo(True,10)
+    [['A', False], ['Ab', False], ['B', False], ['Bb', False], ['C', False], ['Cb', False], ['D', False], ['Db', False], ['E', False], ['Eb', False]]
+    >>> tablero_nuevo(True,8)
     [['A', False], ['Ab', False], ['B', False], ['Bb', False], ['C', False], ['Cb', False], ['D', False], ['Db', False]]
     """
     tablero = []
@@ -41,24 +43,21 @@ def tablero_nuevo(test=False,prueba=1):
     letras_usadas = ""
     valido = False
 
-    while not valido :
-        try :
+    
+        #Corroboramos el ingreso de un maximo de 23 pares y un minimo de 2
+      
+    if not test:
+        config = leer_configuraciones()
+        fichas = int(config[CANTIDAD_FICHAS])
+        
+    else :
+        fichas = prueba
+    if not (24 > fichas >=2) :
+        fichas = 2
 
-            #Corroboramos el ingreso de un maximo de 23 pares y un minimo de 2
-            if not test:
-                fichas= int(input("\nCon cuantos pares de fichas desea jugar : "))
-            else :
-                fichas = prueba
-            if 24 > fichas >=2 :
-                valido = True
-            else :
-                if not test:
-                    print ("El valor ingresado es invalido , por favor ingrese otro")
-        except:
-            if not test:
-                print("El valor ingresado no es un numero. Ingrese uno nuevo.")
+        
     letra = 65
-    while len(tablero) < fichas*2 or letra == 90:
+    while len(tablero) < fichas or letra == 90:
         #Se obtiene un numero aleatorio a traves de la función randrange
         letra_may = letra
         #(Por código ASCII el intervalo [65,90] corresponde a letras mayúsculas)

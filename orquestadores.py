@@ -5,7 +5,7 @@ from mecanicas_juego import cronometro, elegir_fichas, quien_gano
 
 
 def orquestador():
-    os.system('cls')
+    #os.system('cls')
 
     #Variables necesaria para la finalizacion del juego
     pares_encontrados = 0
