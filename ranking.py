@@ -2,16 +2,17 @@ from tkinter import Label, Tk , ttk,BooleanVar
 from PIL import ImageTk ,Image 
 import time
 from orquestadores import orquestador
+from archivador import guardar_partida
 def terminar_partida (ventana,continuar):
     ventana.destroy()
     continuar = False
     return continuar
 
-def formato_ranking(jugadores,maximo_partidas):
+def formato_ranking(jugadores,maximo_partidas,fin_partida):
     ventana_rk = Tk()
     ventana_rk.config(width=600,height=800)
     ventana_rk.title("MemoTest")
-    ventana_rk.iconbitmap("icon.ico")
+    ventana_rk.iconbitmap("imagenes\\icon.ico")
 
     img_corona =ImageTk.PhotoImage( Image.open("imagenes\\corona.png"))    
     oro = ImageTk.PhotoImage( Image.open("imagenes\\oro.png"))
@@ -52,6 +53,7 @@ def formato_ranking(jugadores,maximo_partidas):
     continuar = eleccion_jugador(ventana_rk,maximo_partidas)
     
     ventana_rk.mainloop()
+    guardar_partida(jugadores,fin_partida)
     return continuar
 
 def datos_jugador(fila,jugador,ventana_rk):
@@ -87,14 +89,9 @@ def eleccion_jugador(ventana_rk,maximo_partidas):
         boton_repetir.grid(column=4,rowspan=30)
     return continuar
 
-def guardar_partida(jugadores):
-    #puntajes= open ("archivo",'r')
-    
-    return 0
 
-
-def rankear(jugadores):
-    continuar = formato_ranking(jugadores,False)
-    guardar_partida(jugadores)
+def rankear(jugadores,fin_partida):
+    continuar = formato_ranking(jugadores,False,fin_partida)
+    guardar_partida(jugadores,fin_partida)
     return continuar
 

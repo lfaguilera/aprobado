@@ -97,21 +97,24 @@ def ingresar(usuario,clave,puntos=0,turnos=0):
 
 def guardar_partida (jugadores,fin_partida):
     
+    ord_jugadores = sorted(jugadores.items(),key=lambda x:x[1]['puntos'],reverse=True)
     import os
-    
+    datos = open("partidas_guardadas\\partidas.csv","r")
+    datos_mod = open ("partidas_guardadas\\partidas_mod.csv","w")
     if os.stat("partidas_guardadas\\partidas.csv").st_size != 0:
-        datos = open("partidas_guardadas\\partidas.csv","r")
-        linea = datos.readline()
-        datos_mod = open ("partidas_guardadas\\partidas_mod.csv","w") 
         
-        jugador =  list(jugadores.keys())
+        linea = datos.readline()
+         
+        
+        jugador =  ord_jugadores
+        print(jugador)
         while linea or len(jugador)>0:
 
             
             linea_anterior = linea.rstrip().split(',')
             
             if jugador:
-                linea_nueva = dic_csv(jugador[0],jugadores,fin_partida).rstrip().split(',')
+                linea_nueva = dic_csv(jugador[0][0],jugadores,fin_partida).rstrip().split(',')
 
             if (int(linea_anterior[3]) <= int(linea_nueva[3])) and len(jugador)>0:
                 datos_mod.write(list_csv(linea_nueva))
@@ -120,12 +123,13 @@ def guardar_partida (jugadores,fin_partida):
             else:
                 datos_mod.write(list_csv(linea_anterior))
                 linea = datos.readline()
-
+        
     else:
         datos = open("partidas_guardadas\\partidas.csv","a")
         for jugador in jugadores.keys():
             linea = dic_csv(jugador,jugadores,fin_partida)
             datos.write(linea)
+            
     
     datos.close()
     datos_mod.close()
@@ -133,9 +137,11 @@ def guardar_partida (jugadores,fin_partida):
     os.replace("partidas_guardadas\\partidas_mod.csv","partidas_guardadas\\partidas.csv")
 
 
-def dic_csv (jugador,diccionario,fin_partida):
-    aciertos = diccionario[jugador]['puntos']
-    turnos = diccionario[jugador]['turnos']
+def dic_csv (jugador,dicc,fin_partida):
+    aciertos = dicc[jugador]['puntos']
+
+    turnos = dicc[jugador]['turnos']
+   
     linea = f'{fin_partida[FECHA]},{fin_partida[HORA]},{jugador},{aciertos},{turnos}\n'
     return linea
     
@@ -149,4 +155,4 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
-#guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
+guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
