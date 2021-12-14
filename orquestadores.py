@@ -1,14 +1,12 @@
-import os
 import time
-from tkinter import BooleanVar
-from interfaz import mostrar_tablero
+from interfaz import  mostrar_tablero
 from configuraciones import agregar_jugadores, tablero_nuevo
 from mecanicas_juego import cronometro, girar_ficha, quien_gano,validacion_numeros,registrar_partida
 from ranking import rankear, tabla_final
-from archivador import guardar_partida, leer_configuraciones
+from archivador import guardar_partida, leer_configuraciones , reiniciar_partidas
 
 MAXIMO_PARTIDAS = 2
-
+REINICIAR_ARCHIVO_PARTIDAS = 3
 
 def orquestador():
     """
@@ -19,7 +17,10 @@ def orquestador():
     continuar = True
 
     config = leer_configuraciones()
-    maximo_partidas = int(config[MAXIMO_PARTIDAS])    
+    maximo_partidas = int(config[MAXIMO_PARTIDAS])  
+
+    if config[REINICIAR_ARCHIVO_PARTIDAS]  :
+        reiniciar_partidas()
     
     jugadores = agregar_jugadores()
     

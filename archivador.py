@@ -245,3 +245,8 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
+def reiniciar_partidas():
+    with open("partidas_guardadas\\partidas.csv","w")as f:
+        pass
+
+
