@@ -144,26 +144,26 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
                 
             
             
-            aviso = ttk.Label(ventana,text="     Jugador agregado      ",background='green',relief='solid',borderwidth=2,font=FUENTE)
+            aviso = ttk.Label(ventana,text="    Jugador agregado     ",background='green',relief='solid',borderwidth=2,font=FUENTE)
             aviso.grid(column=1,row=0)
             
         
         elif not usuario_valido  :
         
-            aviso = ttk.Label(ventana,text=f' Usuario no registrado ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso = ttk.Label(ventana,text=f'  Usuario no registrado  ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
             aviso.grid(column=1,row=0)
 
         elif usuario_valido and not clave_valida :
     
-            aviso = ttk.Label(ventana,text=f'La clave no corresponde',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso = ttk.Label(ventana,text=f' La clave no corresponde ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
             aviso.grid(column=1,row=0)
 
         else :
             
-            aviso = ttk.Label(ventana,text=f'   Usuario invalido    ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+            aviso = ttk.Label(ventana,text=f'    Usuario invalido     ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
             aviso.grid(column=1,row=0)
     else :
-        aviso = ttk.Label(ventana,text=f'  Maximo de jugadores  ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
+        aviso = ttk.Label(ventana,text=f'   Maximo de jugadores   ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
     entrada.delete(0,'end')
     return nom_jugador , linea
