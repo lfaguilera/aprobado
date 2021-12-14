@@ -5,7 +5,7 @@ from interfaz import mostrar_tablero
 from configuraciones import agregar_jugadores, tablero_nuevo
 from mecanicas_juego import cronometro, girar_ficha, quien_gano,validacion_numeros,registrar_partida
 from ranking import rankear, tabla_final
-from archivador import leer_configuraciones
+from archivador import guardar_partida, leer_configuraciones
 
 MAXIMO_PARTIDAS = 2
 
@@ -85,7 +85,10 @@ def orquestador():
             else :
                 turno += 1
 
-            
+
+        fecha = time.strftime("%d/%m/%y")
+        hora = time.strftime("%H:%M") 
+        fin_partida = [ fecha, hora ]
 
 
         print ("\033[0;31m"+"Fin del juego"+"\033[0m")
@@ -96,15 +99,17 @@ def orquestador():
         
         print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
 
-        fecha = time.strftime("%d/%m/%y")
-        hora = time.strftime("%H:%M") 
-        fin_partida = [ fecha, hora ]
+        guardar_partida(jugadores,fin_partida)
+
+        
         
         contador += 1
 
         continuar = rankear( jugadores, fin_partida, maximo_partidas, contador ,continuar )
 
         jugadores, registro_jugadores = registrar_partida( jugadores, registro_jugadores )
+
+        
 
     
     tabla_final ( registro_jugadores )

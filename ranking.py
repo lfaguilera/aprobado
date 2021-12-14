@@ -1,5 +1,6 @@
 from tkinter import Label, Tk , ttk,BooleanVar
 from tkinter.constants import COMMAND
+from typing import Container
 from PIL import ImageTk ,Image 
 from archivador import guardar_partida
 
@@ -22,8 +23,9 @@ def rankear( jugadores, fin_partida, maximo, contador, continuar):
     """
     Alumno: Aguilera Luciano Federico
     """
+    
     continuar = formato_ranking( jugadores, fin_partida, maximo, contador, continuar)
-    guardar_partida( jugadores, fin_partida )    
+       
     
     return continuar
 
@@ -79,7 +81,7 @@ def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
     ventana_rk.config(width=800,height=800)
     ventana_rk.title("MemoTest")
     ventana_rk.iconbitmap("imagenes\\icon.ico")
-    
+    continuar = False
 
     img_corona =ImageTk.PhotoImage( Image.open("imagenes\\corona.png"))    
     oro = ImageTk.PhotoImage( Image.open("imagenes\\oro.png"))
@@ -129,7 +131,7 @@ def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
     
     ventana_rk.mainloop()
     
-    guardar_partida(jugadores,fin_partida)
+    #guardar_partida(jugadores,fin_partida)
 
     return continuar
 
@@ -137,6 +139,8 @@ def tabla_final( jugadores ):
     """
     Alumno: Aguilera Luciano Federico, Cerda Jose Antonio
     """
+    datos = open("partidas_guardadas\\partidas.csv","r")
+
     ventana_rk = Tk()
     ventana_rk.config(width=600,height=800)
     ventana_rk.title("MemoTest")
@@ -173,15 +177,19 @@ def tabla_final( jugadores ):
         tercero.grid(column=0,row=4,padx=2,pady=2)
 
     fila = 1
-    turnos=0
-
-    jugadores_ord = sorted(jugadores.items(), key=lambda x: x[1]['puntos'], reverse=True)
+    contador = 0
     
-    for jugador in jugadores_ord:
+    linea = datos.readline()
+    while linea :
+        lista_datos = linea.rstrip('\n').split(',')
+        fecha , hora , jugador , aciertos , turnos = lista_datos
+        
+        diccionario = [jugador,{'puntos':int(aciertos),'turnos':int(turnos)}]
         fila +=1
-        datos_jugador(fila,jugador,ventana_rk)
-        turnos += jugador[1]['turnos']
-    promedio_turnos=round(turnos/len(jugadores.keys()),1)
+        datos_jugador(fila,diccionario,ventana_rk)
+        contador +=1
+        linea = datos.readline()
+    promedio_turnos=round(int(turnos)/contador,1)
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
  

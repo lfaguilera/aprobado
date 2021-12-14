@@ -6,7 +6,7 @@ from archivador import leer_configuraciones
 
 
 
-FUENTE =None
+FUENTE = None
 COLOR_OK='green'
 COLOR_ERROR='red'
 COLOR_MODIFICADO='orange'
@@ -55,9 +55,9 @@ def interfaz_jugadores ():
     
     lista_configuraciones= leer_configuraciones()
 
-    fichas_configuraciones=str(lista_configuraciones[0])
-    jugadores_configuraciones=str(lista_configuraciones[1])
-    maximo_configuraciones=str(lista_configuraciones[2])
+    fichas_configuraciones=str(lista_configuraciones[CANTIDAD_FICHAS])
+    jugadores_configuraciones=str(lista_configuraciones[MAXIMO_JUGADORES])
+    maximo_configuraciones=str(lista_configuraciones[MAXIMO_PARTIDA])
     
     var_nombre = StringVar()
     var_clave = StringVar()
@@ -120,7 +120,7 @@ def interfaz_jugadores ():
     
     return nom_jugadores
 
-doctest.testmod()
+
 
 def ingresar (ventana , jugador, clave, nom_jugador, entrada):
     """
@@ -130,19 +130,23 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
     usuario_valido, clave_valida =  chequear_usuario(jugador,clave)
     config = leer_configuraciones()
     maximo = int(config[MAXIMO_JUGADORES])
-    
+    linea = 2
     if len(nom_jugador) < maximo:
 
         if jugador != "" and jugador not in nom_jugador and usuario_valido and clave_valida:
-        
-            aviso_jugador = ttk.Label(ventana,text=f'{jugador}',relief='solid',borderwidth=2,justify='center',font=FUENTE)
-            aviso_jugador.grid(column=1)
-            
+            nom_jugador.append(jugador)
+
+            for nombre in nom_jugador:
+                
+                aviso_jugador = ttk.Label(ventana,text=f'{nombre}',relief='solid',borderwidth=2,justify='center',font=FUENTE)
+                aviso_jugador.grid(column=1,row=linea)
+                linea+=1
+                
             
             
             aviso = ttk.Label(ventana,text="     Jugador agregado      ",background='green',relief='solid',borderwidth=2,font=FUENTE)
             aviso.grid(column=1,row=0)
-            nom_jugador.append(jugador)
+            
         
         elif not usuario_valido  :
         
@@ -162,7 +166,7 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
         aviso = ttk.Label(ventana,text=f'  Maximo de jugadores  ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
     entrada.delete(0,'end')
-    return nom_jugador
+    return nom_jugador , linea
 
 def comenzar(ventana,nom_jugadores):
     """
@@ -251,9 +255,12 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
      
         aviso.config(text='REGISTRADO',background=COLOR_OK,relief='solid',borderwidth=2)
         registrar_usuario(nombre,clave)
-        time.sleep(2)
+        time.sleep(1)
         ventana_rg.destroy()
     else:
         aviso.config(text='¡Uy! Algo no salió bien.',background=COLOR_ERROR,relief='solid',borderwidth=2)
      
     pass
+
+
+doctest.testmod()

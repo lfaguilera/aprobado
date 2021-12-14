@@ -1,3 +1,5 @@
+import os
+
 NOMBRE=0
 CLAVE=1
 FECHA = 0
@@ -178,8 +180,8 @@ def guardar_partida (jugadores,fin_partida):
     """
     Alumno: Aguilera Luciano Federico
     """
+    
     ord_jugadores = sorted(jugadores.items(),key=lambda x:x[1]['puntos'],reverse=True)
-    import os
     datos = open("partidas_guardadas\\partidas.csv","r")
     datos_mod = open ("partidas_guardadas\\partidas_mod.csv","w")
     if os.stat("partidas_guardadas\\partidas.csv").st_size != 0:
@@ -189,14 +191,14 @@ def guardar_partida (jugadores,fin_partida):
         
         jugador =  ord_jugadores
         
-        while linea or len(jugador)>0:
+        while linea and len(jugador)>0:
 
             
             linea_anterior = linea.rstrip().split(',')
             
             if jugador:
                 linea_nueva = dic_csv(jugador[0][0],jugadores,fin_partida).rstrip().split(',')
-
+                
             if (int(linea_anterior[3]) <= int(linea_nueva[3])) and len(jugador)>0:
                 datos_mod.write(list_csv(linea_nueva))
                 jugador.pop(0)
@@ -212,13 +214,14 @@ def guardar_partida (jugadores,fin_partida):
         for jugador in jugadores.keys():
         
             linea = dic_csv(jugador,jugadores,fin_partida)
-            datos.write(linea)
+            datos_mod.write(linea)
             
     
     datos.close()
     datos_mod.close()
     os.remove("partidas_guardadas\\partidas.csv")
     os.replace("partidas_guardadas\\partidas_mod.csv","partidas_guardadas\\partidas.csv")
+    print("Puntajes guardados")
 
 
 def dic_csv (jugador,dicc,fin_partida):
@@ -242,4 +245,3 @@ def list_csv (lista):
     cadena += "\n"
     return cadena
 
-guardar_partida({'jfgdo': {'puntos': 600, 'turnos': 8}, 'pepedaasdo': {'puntos': 325, 'turnos': 8}, 'albertoosdsd': {'puntos': 200, 'turnos': 5}},["15/10/98","20:58"])
