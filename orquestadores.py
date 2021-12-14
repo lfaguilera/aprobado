@@ -110,11 +110,12 @@ def orquestador():
         
         contador += 1
 
-        rankear( jugadores, fin_partida, maximo_partidas, contador ,continuar )
+        rankear( jugadores, fin_partida, maximo_partidas, contador)
 
         jugadores, registro_jugadores = registrar_partida( jugadores, registro_jugadores )
 
         continuar = obtener_eleccion ()
+        
     os.remove("datos_juego\\continuar.txt")
 
     

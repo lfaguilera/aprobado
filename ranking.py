@@ -1,8 +1,7 @@
-from tkinter import Label, Tk , ttk,BooleanVar
-from tkinter.constants import COMMAND
+from tkinter import Label, Tk , ttk
 from PIL import ImageTk ,Image 
 
-def terminar_partida (ventana_rk,continuar):
+def terminar_partida (ventana_rk):
     """
     Alumno: Aguilera Luciano Federico
     """
@@ -12,7 +11,7 @@ def terminar_partida (ventana_rk,continuar):
     ventana_rk.destroy()
     tabla_final ()
     
-    return continuar
+    
 
 def volver_a_jugar(ventana_rk):
     """
@@ -23,23 +22,23 @@ def volver_a_jugar(ventana_rk):
     ventana_rk.destroy()
 
 
-def rankear( jugadores, fin_partida, maximo, contador, continuar):
+def rankear( jugadores, fin_partida, maximo, contador):
     """
     Alumno: Aguilera Luciano Federico 
     """
     
-    continuar = formato_ranking( jugadores, fin_partida, maximo, contador, continuar)
+    formato_ranking( jugadores, maximo, contador)
        
     
-    return continuar
+    
 
 
-def eleccion_jugador(ventana_rk,jugadores,maximo,contador,continuar):
+def eleccion_jugador(ventana_rk,jugadores,maximo,contador):
     """
     Aguilera Luciano Federico : Muestra los botones para elegir si volver a ejeccutar el juego o terminar
     """
     
-    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command = lambda : terminar_partida(ventana_rk,continuar))
+    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command = lambda : terminar_partida(ventana_rk))
     boton_fin.grid(column=4,rowspan=30, padx=3,pady=3)
     
     if maximo==contador :
@@ -52,7 +51,7 @@ def eleccion_jugador(ventana_rk,jugadores,maximo,contador,continuar):
         boton_repetir = ttk.Button(ventana_rk,text="Volver a jugar",command = lambda : volver_a_jugar(ventana_rk))
         boton_repetir.grid(column=4,rowspan=30, padx=3,pady=3)
     
-    return continuar
+    
 
 
 def datos_jugador( fila, jugador, ventana_rk):
@@ -77,7 +76,7 @@ def datos_jugador( fila, jugador, ventana_rk):
         puesto_jugador.grid(column=0,row=fila)
     
 
-def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
+def formato_ranking( jugadores, maximo, contador):
     """
     Aguilera Luciano Federico, Cerda Jose Antonio : Es el formato base de la tabla de ranking
     """
@@ -85,7 +84,7 @@ def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
     ventana_rk.config(width=800,height=800)
     ventana_rk.title("MemoTest")
     ventana_rk.iconbitmap("imagenes\\icon.ico")
-    continuar = False
+    
 
     img_corona =ImageTk.PhotoImage( Image.open("imagenes\\corona.png"))    
     oro = ImageTk.PhotoImage( Image.open("imagenes\\oro.png"))
@@ -131,13 +130,13 @@ def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
  
-    continuar = eleccion_jugador(ventana_rk,jugadores,maximo,contador, continuar)
+    eleccion_jugador(ventana_rk,jugadores,maximo,contador)
     
     ventana_rk.mainloop()
     
-    #guardar_partida(jugadores,fin_partida)
+    
 
-    return continuar
+    
 
 def tabla_final():
     """
@@ -174,7 +173,7 @@ def tabla_final():
 
     turnos_tot = 0
     fila = 1
-    contador = 1
+    contador = 0
     jugadores_listados = []
     linea = datos.readline()
     while linea :
@@ -182,7 +181,7 @@ def tabla_final():
         fecha , hora , jugador , aciertos , turnos = lista_datos
 
         if not (jugador in jugadores_listados):
-            turnos_tot += turnos
+            turnos_tot += int(turnos)
             jugadores_listados.append(jugador)
             diccionario = [jugador,{'puntos':int(aciertos),'turnos':int(turnos)}]
             fila +=1
