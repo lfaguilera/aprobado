@@ -1,9 +1,10 @@
 import time
+import os
 from interfaz import  mostrar_tablero
 from configuraciones import agregar_jugadores, tablero_nuevo
 from mecanicas_juego import cronometro, girar_ficha, quien_gano,validacion_numeros,registrar_partida
-from ranking import rankear, tabla_final
-from archivador import guardar_partida, leer_configuraciones , reiniciar_partidas
+from ranking import rankear
+from archivador import guardar_partida, leer_configuraciones , reiniciar_partidas , obtener_eleccion
 
 MAXIMO_PARTIDAS = 2
 REINICIAR_ARCHIVO_PARTIDAS = 3
@@ -12,6 +13,9 @@ def orquestador():
     """
     Alumnos: Aguilera Luciano Fedrico, Cerda Jose Antionio: Funcion principal del programa
     """
+    with open ("datos_juego\\continuar.txt","w") as eleccion :
+        pass
+
     #Variables de control del juego
     contador = 0
     continuar = True
@@ -19,7 +23,7 @@ def orquestador():
     config = leer_configuraciones()
     maximo_partidas = int(config[MAXIMO_PARTIDAS])  
 
-    if config[REINICIAR_ARCHIVO_PARTIDAS]  :
+    if config[REINICIAR_ARCHIVO_PARTIDAS] == True:
         reiniciar_partidas()
     
     jugadores = agregar_jugadores()
@@ -106,12 +110,13 @@ def orquestador():
         
         contador += 1
 
-        continuar = rankear( jugadores, fin_partida, maximo_partidas, contador ,continuar )
+        rankear( jugadores, fin_partida, maximo_partidas, contador ,continuar )
 
         jugadores, registro_jugadores = registrar_partida( jugadores, registro_jugadores )
 
-        
+        continuar = obtener_eleccion ()
+    os.remove("datos_juego\\continuar.txt")
 
     
-    tabla_final ( registro_jugadores )
+    
     

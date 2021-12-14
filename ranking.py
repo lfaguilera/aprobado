@@ -1,27 +1,31 @@
 from tkinter import Label, Tk , ttk,BooleanVar
 from tkinter.constants import COMMAND
-from typing import Container
 from PIL import ImageTk ,Image 
-from archivador import guardar_partida
 
 def terminar_partida (ventana_rk,continuar):
     """
     Alumno: Aguilera Luciano Federico
     """
-    continuar=False
+    
+    with open ("datos_juego\\continuar.txt","w") as eleccion :
+        eleccion.write("False")
     ventana_rk.destroy()
+    tabla_final ()
+    
     return continuar
 
 def volver_a_jugar(ventana_rk):
     """
     Alumno: Aguilera Luciano Federico
     """
+    with open ("datos_juego\\continuar.txt","w") as eleccion :
+        eleccion.write("True")
     ventana_rk.destroy()
 
 
 def rankear( jugadores, fin_partida, maximo, contador, continuar):
     """
-    Alumno: Aguilera Luciano Federico
+    Alumno: Aguilera Luciano Federico 
     """
     
     continuar = formato_ranking( jugadores, fin_partida, maximo, contador, continuar)
@@ -32,10 +36,10 @@ def rankear( jugadores, fin_partida, maximo, contador, continuar):
 
 def eleccion_jugador(ventana_rk,jugadores,maximo,contador,continuar):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Muestra los botones para elegir si volver a ejeccutar el juego o terminar
     """
     
-    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command = lambda : volver_a_jugar(ventana_rk))
+    boton_fin = ttk.Button(ventana_rk,text="Terminar Juego",command = lambda : terminar_partida(ventana_rk,continuar))
     boton_fin.grid(column=4,rowspan=30, padx=3,pady=3)
     
     if maximo==contador :
@@ -53,7 +57,7 @@ def eleccion_jugador(ventana_rk,jugadores,maximo,contador,continuar):
 
 def datos_jugador( fila, jugador, ventana_rk):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Imprime los datos de la partida en un formato de tabla
     """
     
     if fila == 2 :
@@ -75,7 +79,7 @@ def datos_jugador( fila, jugador, ventana_rk):
 
 def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
     """
-    Alumno: Aguilera Luciano Federico, Cerda Jose Antonio
+    Aguilera Luciano Federico, Cerda Jose Antonio : Es el formato base de la tabla de ranking
     """
     ventana_rk = Tk()
     ventana_rk.config(width=800,height=800)
@@ -135,9 +139,9 @@ def formato_ranking( jugadores, fin_partida, maximo, contador, continuar):
 
     return continuar
 
-def tabla_final( jugadores ):
+def tabla_final():
     """
-    Alumno: Aguilera Luciano Federico, Cerda Jose Antonio
+    Aguilera Luciano Federico, Cerda Jose Antonio : Muestra los puntajes de todas las partidas registradas
     """
     datos = open("partidas_guardadas\\partidas.csv","r")
 
@@ -167,29 +171,36 @@ def tabla_final( jugadores ):
     
     primer = Label(ventana_rk,image= oro )
     primer.grid(column=0,row=2,padx=2,pady=2)
-    
-    if len(jugadores.keys())>1:
-        segundo = Label(ventana_rk,image=plata )
-        segundo.grid(column=0,row=3,padx=2,pady=2)
-    
-    if len(jugadores.keys())>2:
-        tercero = Label (ventana_rk,image= bronce )
-        tercero.grid(column=0,row=4,padx=2,pady=2)
 
+    turnos_tot = 0
     fila = 1
-    contador = 0
-    
+    contador = 1
+    jugadores_listados = []
     linea = datos.readline()
     while linea :
         lista_datos = linea.rstrip('\n').split(',')
         fecha , hora , jugador , aciertos , turnos = lista_datos
-        
-        diccionario = [jugador,{'puntos':int(aciertos),'turnos':int(turnos)}]
-        fila +=1
-        datos_jugador(fila,diccionario,ventana_rk)
-        contador +=1
+
+        if not (jugador in jugadores_listados):
+            turnos_tot += turnos
+            jugadores_listados.append(jugador)
+            diccionario = [jugador,{'puntos':int(aciertos),'turnos':int(turnos)}]
+            fila +=1
+            datos_jugador(fila,diccionario,ventana_rk)
+            contador +=1
         linea = datos.readline()
-    promedio_turnos=round(int(turnos)/contador,1)
+
+    if contador >1:
+        segundo = Label(ventana_rk,image=plata )
+        segundo.grid(column=0,row=3,padx=2,pady=2)
+    
+    if contador >2:
+        tercero = Label (ventana_rk,image= bronce )
+        tercero.grid(column=0,row=4,padx=2,pady=2)
+
+    
+
+    promedio_turnos=round(int(turnos_tot)/contador,1)
     promedio = Label(text=promedio_turnos,font="Cascadia 16")
     promedio.grid(column=4,row=2)
  

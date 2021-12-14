@@ -182,26 +182,24 @@ def guardar_partida (jugadores,fin_partida):
     """
     
     ord_jugadores = sorted(jugadores.items(),key=lambda x:x[1]['puntos'],reverse=True)
+    
     datos = open("partidas_guardadas\\partidas.csv","r")
     datos_mod = open ("partidas_guardadas\\partidas_mod.csv","w")
     if os.stat("partidas_guardadas\\partidas.csv").st_size != 0:
         
         linea = datos.readline()
          
+        ord_jugadores
         
-        jugador =  ord_jugadores
-        
-        while linea and len(jugador)>0:
+        while linea and len(ord_jugadores)>0:
 
             
             linea_anterior = linea.rstrip().split(',')
-            
-            if jugador:
-                linea_nueva = dic_csv(jugador[0][0],jugadores,fin_partida).rstrip().split(',')
+            linea_nueva = dic_csv(ord_jugadores[0][0],jugadores,fin_partida).rstrip().split(',')
                 
-            if (int(linea_anterior[3]) <= int(linea_nueva[3])) and len(jugador)>0:
+            if (int(linea_anterior[3]) <= int(linea_nueva[3])) and len(ord_jugadores)>0:
                 datos_mod.write(list_csv(linea_nueva))
-                jugador.pop(0)
+                ord_jugadores.pop(0)
                 
             else:
                 datos_mod.write(list_csv(linea_anterior))
@@ -250,3 +248,11 @@ def reiniciar_partidas():
         pass
 
 
+def obtener_eleccion ():
+    with open ("datos_juego\\continuar.txt","r") as eleccion :
+        linea = eleccion.readline()
+        if linea == "True" :
+            continuar = True
+        else:
+            continuar = False
+    return continuar
