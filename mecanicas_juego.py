@@ -7,7 +7,7 @@ from interfaz import mostrar_tablero
 
 def cronometro (tiempo_inicio):
     """
-    Luciano Federico Aguilera: cronometro: retorna el tiempo que duro la partida, restando el tiempo de inicio de partida (que recibe como parametro) al tiempo actual."""
+    Alumno: Aguilera Luciano Federico: La función retorna el tiempo que duro la partida, restando el tiempo de inicio de partida (que recibe como parametro) al tiempo actual."""
     tiempo_actual = time.time()
     tiempo_de_juego = tiempo_actual - tiempo_inicio
     
@@ -20,34 +20,11 @@ def cronometro (tiempo_inicio):
     
     return tiempo
 
-def elegir_fichas(tablero):
-    
-    #por defecto las fichas elegidas no son iguales
-    par_igual = False
-    
-    turno=[tablero,par_igual]
 
-    mostrar_tablero(tablero)#import interfaz.py
-            
-    #opcion=input("Elija una ficha")
-    print('Elija una ficha\n1er Posicion:')
-    opcion_1 = validacion_numeros(tablero)
-        
-    turno = girar_ficha (opcion_1,0,tablero)
-
-    mostrar_tablero(tablero)#import interfaz.py
-    
-    print('Elija una ficha\n2da Posicion:')
-    opcion_2 = validacion_numeros(tablero)
-            
-    turno = girar_ficha(opcion_1,opcion_2,tablero)    
-
-    return turno
 
 def validacion_numeros (tablero,test=False) :
     """
-    Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero
-    
+    Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero 
     """
     valido = False
     while not valido :
@@ -69,7 +46,7 @@ def validacion_numeros (tablero,test=False) :
 
 def girar_ficha (primer_numero,segundo_numero, tablero,test=False):
     """
-    Luciano Federico Aguilera: La función recibe el tablero actualizado y dos numeros de fichas
+    Alumno: Aguilera Luciano Federico: La función recibe el tablero actualizado y dos numeros de fichas
     >>> girar_ficha (1,2,[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]],True)
     [[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]], False]
     >>> girar_ficha (1,8,[['A', 0], ['J', 0], ['C', 1], ['D', 0], ['Cb', 1], ['Jb', 0], ['Db', 0], ['Ab', 0]],True)
@@ -112,9 +89,40 @@ def girar_ficha (primer_numero,segundo_numero, tablero,test=False):
 
     return estado_tablero
 
-def quien_gano(jugadores,lista_jugadores):
+def registrar_partida(jugadores, registro_jugadores):
     """
-    Jose Antonio Cerda: La función define quien gano el juego y lo presenta con sus respectivos puntos y turnos
+    Alumno: Cerda Jose Antonio: La funcion recibe dos diccionarios:
+    El primero es un diccionario con resultados de la partida.
+    El segundo es un acumulador de esos resultados
+    Si el diccionario acumulador está vacío, se le agregan las claves y valores del diccionario con los resultados.
+    Retorna el diccionario acumulador
+    >>> registrar_partida({'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}},{})
+    [{'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}}, {'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}}]
+    >>> registrar_partida({'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}},{'juan': {'puntos': 4, 'turnos': 4}, 'pepe': {'puntos': 2, 'turnos': 5}, 'alberto': {'puntos': 3, 'turnos': 5}})
+    [{'juan': {'puntos': 0, 'turnos': 0}, 'pepe': {'puntos': 0, 'turnos': 0}, 'alberto': {'puntos': 0, 'turnos': 0}}, {'juan': {'puntos': 4, 'turnos': 4}, 'pepe': {'puntos': 2, 'turnos': 5}, 'alberto': {'puntos': 3, 'turnos': 5}}]
+    >>> registrar_partida ({'Jose': {'puntos': 3, 'turnos': 6}, 'Luciano': {'puntos': 4, 'turnos': 5}},{'Jose': {'puntos': 2, 'turnos': 1}, 'Luciano': {'puntos': 1, 'turnos': 2}})
+    [{'Jose': {'puntos': 0, 'turnos': 0}, 'Luciano': {'puntos': 0, 'turnos': 0}}, {'Jose': {'puntos': 5, 'turnos': 7}, 'Luciano': {'puntos': 5, 'turnos': 7}}]
+    """
+    for key in jugadores:
+        
+        if key in registro_jugadores:
+            registro_jugadores[key]['puntos'] = registro_jugadores[key]['puntos'] + jugadores[key]['puntos']  
+            registro_jugadores[key]['turnos'] = registro_jugadores[key]['turnos'] + jugadores[key]['turnos']  
+
+        else:
+            
+            registro_jugadores[key]={'puntos':0,'turnos':0}
+            registro_jugadores[key]['turnos'] = jugadores[key]['turnos']  
+            registro_jugadores[key]['puntos'] = jugadores[key]['puntos']  
+        
+        jugadores [ key ] [ 'puntos' ] = 0
+        jugadores [ key ] [ 'turnos' ] = 0 
+
+    return jugadores, registro_jugadores
+
+def quien_gano( jugadores, lista_jugadores ):
+    """
+    Alumno: Cerda Jose Antonio: La función define quien gano el juego y lo presenta con sus respectivos puntos y turnos
     >>> quien_gano({"juan":{"puntos":0,"turnos":0,"color":0},"pepe":{"puntos":2,"turnos":1,"color":0}},["juan","pepe"])
     El ganador fue  pepe con  2  puntos en  1 turnos
     >>> quien_gano({"juan":{"puntos":3,"turnos":2,"color":0},"pepe":{"puntos":2,"turnos":1,"color":0}},["juan","pepe"])
@@ -122,11 +130,11 @@ def quien_gano(jugadores,lista_jugadores):
     >>> quien_gano({"juan":{"puntos":0,"turnos":0,"color":0},"pepe":{"puntos":5,"turnos":2,"color":0}},["juan","pepe"])
     El ganador fue  pepe con  5  puntos en  2 turnos
     """
-    ganador = lista_jugadores[0]
+    ganador = lista_jugadores [0]
     
     for jugador in lista_jugadores :
     
-        if jugadores[jugador]["puntos"] > jugadores[ganador]["puntos"] :
+        if jugadores [ jugador ] [ "puntos" ] > jugadores [ ganador ][ "puntos" ] :
     
             ganador = jugador
     

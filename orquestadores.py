@@ -1,72 +1,111 @@
 import os
 import time
+from tkinter import BooleanVar
+from interfaz import mostrar_tablero
 from configuraciones import agregar_jugadores, tablero_nuevo
-from mecanicas_juego import cronometro, elegir_fichas, quien_gano
+from mecanicas_juego import cronometro, girar_ficha, quien_gano,validacion_numeros,registrar_partida
+from ranking import rankear, tabla_final
+from archivador import leer_configuraciones
+
+MAXIMO_PARTIDAS = 2
 
 
 def orquestador():
-    #os.system('cls')
+    """
+    Alumnos: Aguilera Luciano Fedrico, Cerda Jose Antionio: Funcion principal del programa
+    """
+    #Variables de control del juego
+    contador = 0
+    continuar = True
 
-    #Variables necesaria para la finalizacion del juego
-    pares_encontrados = 0
-    #Variable para contar los turnos de los jugadores
-    turno = 0
-
-    tablero = tablero_nuevo()#importada de configuraciones.py
-    #Con el tablero definido podemos determinar cuando el juego esta completo
-    completo = int(len(tablero)/2) 
+    config = leer_configuraciones()
+    maximo_partidas = int(config[MAXIMO_PARTIDAS])    
     
-    jugadores = agregar_jugadores ()#importada de configuraciones.py
-    #Lista para controlar los turnos
-    lista_jugadores = list(jugadores.keys())
+    jugadores = agregar_jugadores()
     
-    #inicia el tiempo
-    tiempo_0 = time.time()
+    registro_jugadores={}
+    
+    while contador < maximo_partidas and continuar:
+        #os.system('cls')
+        
+        #Variables de control de partidas
+        turno = 0
+        pares_encontrados = 0
 
-    ###CORTE DE CONTROL###
-    while pares_encontrados < completo:
-        
-        jugador_de_turno = lista_jugadores[turno]
-        #Por defecto el jugador no adivino pares
-        pierde=False
-        print("\nEs el turno de ",jugador_de_turno,"\n")
-        
-        #CORTE DE CONTROL: Si no acierta el par pierde el turno
-        while (pares_encontrados < completo) and not pierde:
+        tablero = tablero_nuevo()
+        tablero_completo = int( len( tablero) /2 ) 
+
+        lista_jugadores = list( jugadores.keys() )
+        #Variable que inicia el tiempo
+        tiempo_0 = time.time()
+
+        while pares_encontrados < tablero_completo:
+        ######### CORTE DE CONTROL DE PARTIDA #####    
             
-            #El jugador elige las fichas del tablero
-            tablero , par_igual = elegir_fichas(tablero)#import mecanicas_juego.py
-
-            #Si acierta se le asignan los puntos, y se anota un par adivinado. El jugador continua jugando.
-            if par_igual : 
-                jugadores [jugador_de_turno] ["puntos"] += 1 
-                pares_encontrados += 1
+            pierde = False
             
-            else:
-                pierde = True
-    
-        ###FINALIZA EL TURNO###
+            jugador_de_turno = lista_jugadores[turno]
+            
+            print("\nEs el turno de ",jugador_de_turno,"\n")
         
-        jugadores[jugador_de_turno]["turnos"] += 1
-        #Se controla el contador para la vuelta de turnos
-        if turno == len(lista_jugadores)-1 :
-            turno = 0
-        else :
-            turno += 1
-        print("\nSiguiente jugador\n")
+            while ( pares_encontrados < tablero_completo ) and not pierde:
+            ################ CORTE DE CONTROL DE TURNO #################
+                
+                par_igual = False
 
-    ###FINALIZA EL JUEGO###
-    
-    print ("\033[0;31m"+"Fin del juego"+"\033[0m")
+                mostrar_tablero( tablero )
+            
+                print('Elija una ficha\n1er Posicion:')
+                opcion_1 = validacion_numeros( tablero )
+        
+                tablero, par_igual = girar_ficha ( opcion_1, 0, tablero )
 
-    #Se define el ganador y se lo presenta
-    quien_gano(jugadores,lista_jugadores)
+                mostrar_tablero(tablero)
     
-    tiempo = cronometro(tiempo_0)#importda de mecanicas_juego.py
-    print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
+                print('Elija una ficha\n2da Posicion:')
+                opcion_2 = validacion_numeros(tablero)
+            
+                tablero, par_igual = girar_ficha(opcion_1,opcion_2,tablero)    
 
-    fecha = time.strftime("%d/%m/%y")
-    hora = time.strftime("%H:%M") 
-    datos_partida =[jugadores,[fecha,hora]]
+                if par_igual : 
+
+                    jugadores [ jugador_de_turno ] [ "puntos" ] += 1 
+                    pares_encontrados += 1
+            
+                else:
+
+                    pierde = True
+                    print("\nSiguiente jugador\n")
+                
+            jugadores [ jugador_de_turno ] [ "turnos" ] += 1
+            
+            if turno == len( lista_jugadores )-1 :
+                turno = 0
+            
+            else :
+                turno += 1
+
+            
+
+
+        print ("\033[0;31m"+"Fin del juego"+"\033[0m")
+
+        quien_gano( jugadores, lista_jugadores )
     
-    return datos_partida
+        tiempo = cronometro( tiempo_0 )
+        
+        print("\033[0;32m"+"El tiempo que tomo la partida es ",tiempo,"\033[0;m")
+
+        fecha = time.strftime("%d/%m/%y")
+        hora = time.strftime("%H:%M") 
+        fin_partida = [ fecha, hora ]
+        
+        contador += 1
+
+        continuar = rankear( jugadores, fin_partida, maximo_partidas, contador ,continuar )
+
+        jugadores, registro_jugadores = registrar_partida( jugadores, registro_jugadores )
+
+    
+    tabla_final ( registro_jugadores )
+    
