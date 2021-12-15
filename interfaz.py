@@ -1,8 +1,8 @@
 import doctest
-from tkinter import Tk, ttk ,StringVar
+from tkinter import Message, Tk, ttk ,StringVar,messagebox
 from archivador import leer_configuraciones, validar_clave_nueva ,validar_usuario_nuevo, registrar_usuario, ingresar_usuario, chequear_usuario
 import time
-from archivador import leer_configuraciones
+from archivador import leer_configuraciones,reiniciar_partidas
 
 
 
@@ -98,22 +98,22 @@ def interfaz_jugadores ():
     config_fichas = ttk.Label(ventana, text = "Cantidad de fichas: "+fichas_configuraciones , font=FUENTE, foreground=COLOR_OK)
     config_fichas.grid(column=3,row=1,padx=2,pady=2)
     
-    if fichas_configuraciones != '4':
-        config_fichas.config(foreground=COLOR_MODIFICADO,text = "Cantidad de fichas: "+fichas_configuraciones+"- MODIFICADO")
+    if fichas_configuraciones == '4':
+        config_fichas.config(foreground=COLOR_MODIFICADO,text = "Cantidad de fichas: "+fichas_configuraciones+"- DEFECTO")
 
     config_jugadores= ttk.Label(ventana, text = "Maximo de jugadores: "+jugadores_configuraciones, font=FUENTE, foreground=COLOR_OK)
     config_jugadores.grid(column=3,row=2,padx=2,pady=2)
     
-    if jugadores_configuraciones != '2':
-        config_jugadores.config(foreground=COLOR_MODIFICADO,text = "Maximo de jugadores: "+jugadores_configuraciones+"- MODIFICADO")
+    if jugadores_configuraciones == '2':
+        config_jugadores.config(foreground=COLOR_MODIFICADO,text = "Maximo de jugadores: "+jugadores_configuraciones+"- DEFECTO")
 
     maximo_partidas= ttk.Label(ventana, text = "Maximo de partidas: "+maximo_configuraciones, font=FUENTE, foreground=COLOR_OK)
     maximo_partidas.grid(column=3,row=3,padx=2,pady=2)
     
-    if maximo_configuraciones != '2':
-        maximo_partidas.config(foreground=COLOR_MODIFICADO,text = "Maximo de partidas: "+maximo_configuraciones+"- MODIFICAD")
+    if maximo_configuraciones == '2':
+        maximo_partidas.config(foreground=COLOR_MODIFICADO,text = "Maximo de partidas: "+maximo_configuraciones+"- DEFECTO")
 
-    boton_reiniciar_archivo =  ttk.Button(ventana,text="REINICIAR ARCHIVO", font=FUENTE)
+    boton_reiniciar_archivo =  ttk.Button(ventana,text="REINICIAR ARCHIVO", font=FUENTE,command=lambda:reiniciar_partidas())
     boton_reiniciar_archivo.grid(column=3,row=4,padx=2,pady=2)
 
     ventana.mainloop()
@@ -134,6 +134,7 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
     if len(nom_jugador) < maximo:
 
         if jugador != "" and jugador not in nom_jugador and usuario_valido and clave_valida:
+
             nom_jugador.append(jugador)
 
             for nombre in nom_jugador:
@@ -226,41 +227,53 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
     clave=str(clave)
     clave_dos=str(clave_dos)
 
-    aviso = ttk.Label(ventana_rg ,text='',font=FUENTE,relief='solid',borderwidth=2)
+    """"aviso = ttk.Label(ventana_rg ,text='',font=FUENTE,relief='solid',borderwidth=2)
     aviso.grid(column=1,row=0)
     aviso_nombre = ttk.Label(ventana_rg ,text='',font=FUENTE,relief='solid',borderwidth=2)
     aviso_nombre.grid(column=1,row=1)
     aviso_clave = ttk.Label(ventana_rg ,text='',font=FUENTE)
     aviso_clave.grid(column=1,row=3)
     aviso_clave_dos = ttk.Label(ventana_rg ,text='',font=FUENTE)
-    aviso_clave_dos.grid(column=1,row=5)
+    aviso_clave_dos.grid(column=1,row=5)"""
 
     respuesta_usuario = validar_usuario_nuevo(nombre)
     respuesta_clave = validar_clave_nueva(clave)
 
     if respuesta_usuario[0] == False:
-        aviso_nombre.config(text=respuesta_usuario[1], background='red')
+        #aviso_nombre.config(text=respuesta_usuario[1], background='red')
+        alerta(respuesta_usuario[1],"Error en usuario")
     
-    else :
-        aviso_nombre.config(text='¡Buen nombre!',background=COLOR_OK,relief='solid',borderwidth=2)
+    #else :
+    #   aviso_nombre.config(text='¡Buen nombre!',background=COLOR_OK,relief='solid',borderwidth=2)
+
 
     if respuesta_clave[0] == False:
-        aviso_clave.config(text=respuesta_clave[1],background=COLOR_ERROR,relief='solid',borderwidth=2)
+        #aviso_clave.config(text=respuesta_clave[1],background=COLOR_ERROR,relief='solid',borderwidth=2)
+        alerta(respuesta_clave[1],"Error en clave")
         
 
     if clave_dos!=clave:
-        aviso_clave_dos.config(text='¡Las claves no coinciden! Intenta nuevamente',background=COLOR_ERROR,relief='solid',borderwidth=2)
+        alerta('¡Las claves no coinciden! Intenta nuevamente!',"Error de clave")
         
     if (respuesta_clave[0] == True) and (respuesta_usuario[0] == True) and (clave == clave_dos):    
      
-        aviso.config(text='REGISTRADO',background=COLOR_OK,relief='solid',borderwidth=2)
+        #aviso.config(text='REGISTRADO',background=COLOR_OK,relief='solid',borderwidth=2)
+        alerta('USUARIO REGISTRADO',"AVISO",True)
         registrar_usuario(nombre,clave)
         time.sleep(1)
         ventana_rg.destroy()
-    else:
-        aviso.config(text='¡Uy! Algo no salió bien.',background=COLOR_ERROR,relief='solid',borderwidth=2)
+    #else:
+    #    aviso.config(text='¡Uy! Algo no salió bien.',background=COLOR_ERROR,relief='solid',borderwidth=2)
+        
      
     pass
 
+
+def alerta (mensaje,tipo_alerta,aviso=False):
+    if aviso:
+        messagebox.showinfo(message=mensaje,title=tipo_alerta)
+
+    else:
+        messagebox.showwarning(message=mensaje, title=tipo_alerta)
 
 doctest.testmod()
