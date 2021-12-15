@@ -25,6 +25,7 @@ def cronometro (tiempo_inicio):
 def validacion_numeros (tablero,test=False) :
     """
     Luciano Federico Aguilera: La función controla que el numero corresponda a una posicion valida del tablero 
+    
     """
     valido = False
     while not valido :

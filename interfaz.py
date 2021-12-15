@@ -45,7 +45,7 @@ def mostrar_tablero (tablero):
 
 def interfaz_jugadores ():
     """
-    Alumno : Aguilera Luciano Federico, Cerda Jose Antonio
+    Alumno : Aguilera Luciano Federico, Cerda Jose Antonio : Es la interfaz de ingreso para jugadores al comienzo de la partida
     """
     ventana = Tk()
     ventana.config(width=500,height=300,background='#fff')
@@ -124,7 +124,7 @@ def interfaz_jugadores ():
 
 def ingresar (ventana , jugador, clave, nom_jugador, entrada):
     """
-    Alumno : Aguilera Luciano Federico
+    Aguilera Luciano Federico : Chequea si el jugador es valido usando funciones definidas en archivador.py y lo agrega a la lista de la interfaz
     """
     #archivo=ingresar_usuario(jugador)
     usuario_valido, clave_valida =  chequear_usuario(jugador,clave)
@@ -171,7 +171,7 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
 
 def comenzar(ventana,nom_jugadores):
     """
-    Alumno : Aguilera Luciano Fedrico
+    Aguilera Luciano Fedrico : Comienza la ejecucion del juego si el numero de jugadores es valido y destruye la ventana de ingreso
     """
     if (len(nom_jugadores)>=2):
 
@@ -184,7 +184,7 @@ def comenzar(ventana,nom_jugadores):
 
 def ventana_registrar_jugador():
     """
-    Alumno : Cerda Jose Antonio
+    Alumno : Cerda Jose Antonio : Crea una nueva ventana para registrar a un nuevo jugador pidiendo sus datos
     """
     ventana_rg = Tk()
     ventana_rg.config(width=500,height=300)
@@ -221,7 +221,7 @@ def ventana_registrar_jugador():
 
 def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
     """
-    Alumno : Cerda Jose Antonio
+    Alumno : Cerda Jose Antonio : En caso de que el nuevo usuario sea valido lo guarda en el archivo usuarios.csv de lo contrario muestra una advertencia
     """
     nombre=str(nombre)
     clave=str(clave)
@@ -240,15 +240,12 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
     respuesta_clave = validar_clave_nueva(clave)
 
     if respuesta_usuario[0] == False:
-        #aviso_nombre.config(text=respuesta_usuario[1], background='red')
+        
         alerta(respuesta_usuario[1],"Error en usuario")
     
-    #else :
-    #   aviso_nombre.config(text='¡Buen nombre!',background=COLOR_OK,relief='solid',borderwidth=2)
-
 
     if respuesta_clave[0] == False:
-        #aviso_clave.config(text=respuesta_clave[1],background=COLOR_ERROR,relief='solid',borderwidth=2)
+        
         alerta(respuesta_clave[1],"Error en clave")
         
 
@@ -257,14 +254,12 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
         
     if (respuesta_clave[0] == True) and (respuesta_usuario[0] == True) and (clave == clave_dos):    
      
-        #aviso.config(text='REGISTRADO',background=COLOR_OK,relief='solid',borderwidth=2)
+        
         alerta('USUARIO REGISTRADO',"AVISO",True)
         registrar_usuario(nombre,clave)
         time.sleep(1)
         ventana_rg.destroy()
-    #else:
-    #    aviso.config(text='¡Uy! Algo no salió bien.',background=COLOR_ERROR,relief='solid',borderwidth=2)
-        
+   
      
     pass
 

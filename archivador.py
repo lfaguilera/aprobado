@@ -1,4 +1,4 @@
-import os
+import os , doctest
 
 NOMBRE=0
 CLAVE=1
@@ -10,7 +10,7 @@ CLAVE_USUARIO = 1
 
 def leer(archivo):
     """
-    Alumno: Cerda Jose Antonio
+    Alumno: Cerda Jose Antonio: Lee una linea de un archivo y devuelve la linea o devuelve un valor maximo
     """
     linea = archivo.readline()
     continuar=True
@@ -23,7 +23,8 @@ def leer(archivo):
 
 def leer_configuraciones ():
     """
-    Alumno: Aguilera Luciano Fedrico
+    Alumno: Aguilera Luciano Fedrico : Lee las configuraciones pre-definidas 
+    o devuelve la configuraciones por defecto en caso de no encontrarlas
     """
     datos = open("datos_juego\\configuraciones.csv","r")
     
@@ -37,7 +38,7 @@ def leer_configuraciones ():
 
 def ingresar_usuario( usuario ):
     """
-    Alumno: Cerda Jose Antonio
+    Alumno: Cerda Jose Antonio : Pide un usuario y chequea si ya exxiste o no
     """
     usuarios = open("datos_juego\\usuario.csv","r")
     existe=False
@@ -59,7 +60,7 @@ def ingresar_usuario( usuario ):
 
 def registrar_usuario(usuario,clave):
     """
-    Alumno: Cerda Jose Antonio
+    Alumno: Cerda Jose Antonio : Guarda el nuevo jugador registrado junto con su clave
     """
     #usuarios: nombre,clave
     NOMBRE=0
@@ -74,7 +75,7 @@ def registrar_usuario(usuario,clave):
         
 def chequear_usuario (usuario,clave):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Cheque que la clave y el usuario coincidan
      """
     usuario_valido = False
     usuarios_reg = open("datos_juego\\usuarios.csv","r")
@@ -152,6 +153,7 @@ def validar_clave_nueva(clave):
     Su primer elemento es un booleano que indica si el string cumple o no las condiciones especificadas.
     El segundo elemento es un mensaje destinado a ser mostrado en interfaz gráfica.
     Retorna la lista respuesta
+    >>> 
 
     """
     clave=str(clave)
@@ -178,7 +180,8 @@ def validar_clave_nueva(clave):
 
 def guardar_partida (jugadores,fin_partida):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Guarda el estado de la partida actual actualizando un archivo pre-existente
+
     """
     
     ord_jugadores = sorted(jugadores.items(),key=lambda x:x[1]['puntos'],reverse=True)
@@ -224,7 +227,8 @@ def guardar_partida (jugadores,fin_partida):
 
 def dic_csv (jugador,dicc,fin_partida):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Cambia el formato de los datos de un diccionario para ponerlos en un csv y devuelve el string
+    >>>
     """
     aciertos = dicc[jugador]['puntos']
 
@@ -234,6 +238,10 @@ def dic_csv (jugador,dicc,fin_partida):
     return linea
     
 def list_csv (lista):
+    """
+    Aguilera Luciano Federico : Cambia el formato de los datos de una lista para ponerlos en un csv y devuelve el string
+    >>>
+    """
     cadena = ""
     for dato in lista:
         if cadena == "":
@@ -244,11 +252,17 @@ def list_csv (lista):
     return cadena
 
 def reiniciar_partidas():
+    """
+    Aguilera Luciano Federico : Reinicia el archivo partidas 
+    """
     with open("partidas_guardadas\\partidas.csv","w")as f:
         pass
 
 
 def obtener_eleccion ():
+    """
+    Aguilera Luciano Federico : Chequea en un archivo si el juego debe repetirse o terminar
+    """
     with open ("datos_juego\\continuar.txt","r") as eleccion :
         linea = eleccion.readline()
         if linea == "True" :
@@ -256,3 +270,5 @@ def obtener_eleccion ():
         else:
             continuar = False
     return continuar
+
+doctest.testmod()

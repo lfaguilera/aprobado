@@ -3,7 +3,7 @@ from PIL import ImageTk ,Image
 
 def terminar_partida (ventana_rk):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Termina la partida cambiendo la condicion para que el juego ya no se repita y destruye la ventana de marcador
     """
     
     with open ("datos_juego\\continuar.txt","w") as eleccion :
@@ -15,7 +15,7 @@ def terminar_partida (ventana_rk):
 
 def volver_a_jugar(ventana_rk):
     """
-    Alumno: Aguilera Luciano Federico
+    Aguilera Luciano Federico : Establece la opcion para que el juego continue y destruye la ventana del marcador para que el juego se reinicie
     """
     with open ("datos_juego\\continuar.txt","w") as eleccion :
         eleccion.write("True")
@@ -78,7 +78,7 @@ def datos_jugador( fila, jugador, ventana_rk):
 
 def formato_ranking( jugadores, maximo, contador):
     """
-    Aguilera Luciano Federico, Cerda Jose Antonio : Es el formato base de la tabla de ranking
+    Aguilera Luciano Federico, Cerda Jose Antonio : Es el formato base de la tabla de ranking al que luego se le agregan los datos que se actualizan
     """
     ventana_rk = Tk()
     ventana_rk.config(width=800,height=800)
@@ -140,7 +140,7 @@ def formato_ranking( jugadores, maximo, contador):
 
 def tabla_final():
     """
-    Aguilera Luciano Federico, Cerda Jose Antonio : Muestra los puntajes de todas las partidas registradas
+    Aguilera Luciano Federico, Cerda Jose Antonio : Muestra los puntajes de todas las partidas registradas sin repetir los jugadores y mostrando su mayor puntaje
     """
     datos = open("partidas_guardadas\\partidas.csv","r")
 
