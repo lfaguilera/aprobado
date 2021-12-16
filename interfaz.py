@@ -76,7 +76,7 @@ def interfaz_jugadores ():
     entrada_clave = ttk.Entry(ventana, textvariable = var_clave, justify='center')
     entrada_clave.grid(column=0,row=3, padx=1,pady=1)
     
-    boton_ingresar = ttk.Button(ventana,text="Ingresar",command= lambda :ingresar(ventana,var_nombre.get(),var_clave.get(),nom_jugadores,entrada_nombre) )
+    boton_ingresar = ttk.Button(ventana,text="Ingresar",command= lambda :ingresar(ventana,var_nombre.get(),var_clave.get(),nom_jugadores,entrada_nombre,entrada_clave) )
     boton_ingresar.grid(column=0,row=4, padx=2,pady=4)
     
     boton_registrar = ttk.Button(ventana,text="Registrar Jugador",command= lambda :ventana_registrar_jugador())
@@ -122,7 +122,7 @@ def interfaz_jugadores ():
 
 
 
-def ingresar (ventana , jugador, clave, nom_jugador, entrada):
+def ingresar (ventana , jugador, clave, nom_jugador, entrada ,entrada_clave):
     """
     Aguilera Luciano Federico : Chequea si el jugador es valido usando funciones definidas en archivador.py y lo agrega a la lista de la interfaz
     """
@@ -167,6 +167,7 @@ def ingresar (ventana , jugador, clave, nom_jugador, entrada):
         aviso = ttk.Label(ventana,text=f'   Maximo de jugadores   ',background= "red",relief='solid',borderwidth=2,font=FUENTE)
         aviso.grid(column=1,row=0)
     entrada.delete(0,'end')
+    entrada_clave.delete(0,'end')
     return nom_jugador , linea
 
 def comenzar(ventana,nom_jugadores):
@@ -265,6 +266,9 @@ def registrar_jugador (ventana_rg ,nombre, clave, clave_dos):
 
 
 def alerta (mensaje,tipo_alerta,aviso=False):
+    """
+    Aguilera Luciano Federico : Crea ventanas de notificacion para avisar al jugador de errores o advertencias
+    """
     if aviso:
         messagebox.showinfo(message=mensaje,title=tipo_alerta)
 
